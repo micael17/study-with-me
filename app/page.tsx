@@ -1,95 +1,78 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+'use client';
 
-export default function Home() {
+import PomodoroTimer from '@/components/pomodoro/pomodoro';
+import { ChangeEvent, useState } from 'react';
+
+export default function Start() {
+  const [selectedTab, setSelectedTab] = useState('menu');
+
+  const handleTabChange = (tab: string) => {
+    setSelectedTab(tab);
+  };
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.tsx</code>
-        </p>
+    <div>
+      <input
+        type="radio"
+        name="tab"
+        id="menu"
+        checked={selectedTab === 'menu'}
+        onChange={() => handleTabChange('menu')}
+      />
+      <div className="container">
+        <input
+          type="radio"
+          name="tab"
+          checked={selectedTab === 'home'}
+          onChange={() => handleTabChange('home')}
+          id="home"
+        />
+        <section className={'home'}>
+          <h1>Home</h1>
+          <label htmlFor="home">
+            <PomodoroTimer />
+          </label>
+        </section>
+        <input
+          type="radio"
+          name="tab"
+          checked={selectedTab === 'about'}
+          onChange={() => handleTabChange('about')}
+          id="about"
+        />
+        <section className={'about'}>
+          <h1>About</h1>
+          <label htmlFor="about"></label>
+        </section>
+        <input
+          type="radio"
+          name="tab"
+          checked={selectedTab === 'work'}
+          onChange={() => handleTabChange('work')}
+          id="work"
+        />
+        <section className={'work'}>
+          <h1>Work</h1>
+          <label htmlFor="work"></label>
+        </section>
+        <input
+          type="radio"
+          name="tab"
+          checked={selectedTab === 'contact'}
+          onChange={() => handleTabChange('contact')}
+          id="contact"
+        />
+        <section className={'contact'}>
+          <h1>Contact</h1>
+          <label htmlFor="contact"></label>
+        </section>
+      </div>
+      <div className="menu">
         <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+          <label htmlFor="menu"></label>
+          <label htmlFor="home"></label>
         </div>
       </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+    </div>
   );
 }
