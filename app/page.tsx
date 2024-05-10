@@ -12,56 +12,27 @@ export default function Start() {
 
   return (
     <div>
-      <input
-        type="radio"
-        name="tab"
-        id="menu"
-        checked={selectedTab === 'menu'}
-        onChange={() => handleTabChange('menu')}
-      />
+      <div className="info">여기는 나의 정보</div>
+      <input type="radio" name="tab" id="menu" defaultChecked />
       <div className="container">
-        <input
-          type="radio"
-          name="tab"
-          checked={selectedTab === 'home'}
-          onChange={() => handleTabChange('home')}
-          id="home"
-        />
-        <section className={'home'}>
-          <h1>Home</h1>
-          <label htmlFor="home">
+        <input type="radio" name="tab" id="timer" />
+        <section className={'timer'}>
+          <label htmlFor="timer">
+            <h1>Timer</h1>
             <PomodoroTimer />
           </label>
         </section>
-        <input
-          type="radio"
-          name="tab"
-          checked={selectedTab === 'about'}
-          onChange={() => handleTabChange('about')}
-          id="about"
-        />
+        <input type="radio" name="tab" id="about" />
         <section className={'about'}>
           <h1>About</h1>
           <label htmlFor="about"></label>
         </section>
-        <input
-          type="radio"
-          name="tab"
-          checked={selectedTab === 'work'}
-          onChange={() => handleTabChange('work')}
-          id="work"
-        />
+        <input type="radio" name="tab" id="work" />
         <section className={'work'}>
           <h1>Work</h1>
           <label htmlFor="work"></label>
         </section>
-        <input
-          type="radio"
-          name="tab"
-          checked={selectedTab === 'contact'}
-          onChange={() => handleTabChange('contact')}
-          id="contact"
-        />
+        <input type="radio" name="tab" id="contact" />
         <section className={'contact'}>
           <h1>Contact</h1>
           <label htmlFor="contact"></label>
@@ -70,7 +41,7 @@ export default function Start() {
       <div className="menu">
         <div>
           <label htmlFor="menu"></label>
-          <label htmlFor="home"></label>
+          <label htmlFor="timer"></label>
         </div>
       </div>
     </div>
