@@ -1,18 +1,22 @@
-'use client';
-
+import Info from '@/components/info/info';
 import PomodoroTimer from '@/components/pomodoro/pomodoro';
-import { ChangeEvent, useState } from 'react';
+import { useEffect } from 'react';
 
 export default function Start() {
-  const [selectedTab, setSelectedTab] = useState('menu');
-
-  const handleTabChange = (tab: string) => {
-    setSelectedTab(tab);
-  };
+  /* useEffect(() => {
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') {
+        const menu = document.getElementById('menu');
+        if (menu) {
+          menu.click();
+        }
+      }
+    });
+  }, []); */
 
   return (
     <div>
-      <div className="info">여기는 나의 정보</div>
+      <Info />
       <input type="radio" name="tab" id="menu" defaultChecked />
       <div className="container">
         <input type="radio" name="tab" id="timer" />

@@ -172,34 +172,26 @@ input[type='radio']:checked + section {
   z-index: 96;
 }
 #menu:checked + .container section.timer {
-  top: 192px;
+  top: 212px;
 }
 #menu:checked + .container section.timer:hover {
-  top: 188px;
+  top: 208px;
 }
 #menu:checked + .container section.about {
-  top: 132px;
+  top: 144px;
 }
 #menu:checked + .container section.about:hover {
-  top: 128px;
+  top: 140px;
 }
 #menu:checked + .container section.work {
-  top: 72px;
+  top: 78px;
 }
 #menu:checked + .container section.work:hover {
-  top: 68px;
+  top: 74px;
 }
 #menu:checked + .container section.contact {
-  top: 12px;
+  top: 18px;
 }
 #menu:checked + .container section.contact:hover {
-  top: 8px;
-}
-
-.info {
-  position: fixed;
-  left: 50%;
-  transform: translate(-50%, 0);
-  border: 1px solid black;
-  width: 300px;
+  top: 14px;
 }

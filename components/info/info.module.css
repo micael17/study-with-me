@@ -1,0 +1,19 @@
+.info {
+  display: block;
+  position: fixed;
+  left: 50%;
+  transform: translate(-50%, 0);
+  background-color: rgb(200, 33, 33);
+  width: 300px;
+  border-radius: 0 0 10px 10px;
+  padding: 3px;
+}
+
+.greeting {
+  font-size: 14px;
+  text-align: center;
+}
+
+.btns {
+  text-align: center;
+}
