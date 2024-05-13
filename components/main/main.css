@@ -38,12 +38,24 @@ input[type='radio']:checked + section {
 .container section h1 {
   margin: 0;
   font-size: 64px;
+  font-weight: 600;
   transform: translate(0, 40vh);
   text-align: center;
   color: rgba(255, 255, 255, 0.85);
   transition: transform 500ms;
   transform-style: preserve-3d;
 }
+
+.container section .top {
+  margin: 0;
+  font-size: 64px;
+  transform: translate(0, 60px);
+  text-align: center;
+  color: rgba(255, 255, 255, 0.85);
+  transition: transform 500ms;
+  transform-style: preserve-3d;
+}
+
 .container section label {
   display: block;
   position: absolute;

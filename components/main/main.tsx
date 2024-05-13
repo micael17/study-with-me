@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import PomodoroTimer from '../pomodoro/pomodoro';
 import './main.css';
+import Board from '../board/board';
 
 export default function Main() {
   useEffect(() => {
@@ -29,12 +30,14 @@ export default function Main() {
         </section>
         <input type="radio" name="tab" id="board" />
         <section className={'board'}>
-          <h1>Board</h1>
-          <label htmlFor="board"></label>
+          <label htmlFor="board">
+            <h1 className="top">Board</h1>
+            <Board />
+          </label>
         </section>
         <input type="radio" name="tab" id="youTube" />
         <section className={'youTube'}>
-          <h1>YouTube</h1>
+          <h1 className="top">YouTube</h1>
           <label htmlFor="youTube"></label>
         </section>
         <input type="radio" name="tab" id="myStudy" />
