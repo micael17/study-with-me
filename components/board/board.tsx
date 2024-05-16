@@ -1,59 +1,36 @@
 'use client';
 
+import BoardTable from './table';
+import { Button, ButtonGroup } from '@chakra-ui/react';
 import style from './board.module.css';
-import { Table, Thead, Tbody, Tfoot, Tr, Th, Td, TableCaption, TableContainer } from '@chakra-ui/react';
+import { useState } from 'react';
+import dynamic from 'next/dynamic';
+
+const DynamicTuiEditor = dynamic(() => import('./tuiEditor'), {
+  // loading: () => <p>Loading...</p>,
+});
 
 export default function Board() {
+  const [boardState, setBoardState] = useState<string>('board');
+
+  const handleWriteBtn = () => {
+    setBoardState('write');
+  };
+
+  const handleBoardBtn = () => {
+    setBoardState('board');
+  };
+
   return (
-    <TableContainer className={style.container}>
-      <Table shadow="base" rounded="5px" bgColor="#f7f3b7" variant="simple">
-        <Thead>
-          <Tr>
-            <Th>To convert</Th>
-            <Th>into</Th>
-            <Th isNumeric>multiply by</Th>
-            <Th>To convert</Th>
-            <Th>into</Th>
-            <Th isNumeric>multiply by</Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          <Tr>
-            <Td>inches</Td>
-            <Td>millimetres (mm)</Td>
-            <Td isNumeric>25.4</Td>
-            <Td>inches</Td>
-            <Td>millimetres (mm)</Td>
-            <Td isNumeric>25.4</Td>
-          </Tr>
-          <Tr>
-            <Td>feet</Td>
-            <Td>centimetres (cm)</Td>
-            <Td isNumeric>30.48</Td>
-            <Td>inches</Td>
-            <Td>millimetres (mm)</Td>
-            <Td isNumeric>25.4</Td>
-          </Tr>
-          <Tr>
-            <Td>yards</Td>
-            <Td>metres (m)</Td>
-            <Td isNumeric>0.91444</Td>
-            <Td>inches</Td>
-            <Td>millimetres (mm)</Td>
-            <Td isNumeric>25.4</Td>
-          </Tr>
-        </Tbody>
-        <Tfoot>
-          <Tr>
-            <Th>To convert</Th>
-            <Th>into</Th>
-            <Th isNumeric>multiply by</Th>
-            <Th>To convert</Th>
-            <Th>into</Th>
-            <Th isNumeric>multiply by</Th>
-          </Tr>
-        </Tfoot>
-      </Table>
-    </TableContainer>
+    <div className={style.container}>
+      {boardState === 'board' ? <BoardTable /> : null}
+      {boardState === 'write' ? <DynamicTuiEditor /> : null}
+      <Button colorScheme="blue" onClick={handleWriteBtn}>
+        글쓰기
+      </Button>
+      <Button colorScheme="blue" onClick={handleBoardBtn}>
+        게시판으로 가기
+      </Button>
+    </div>
   );
 }
