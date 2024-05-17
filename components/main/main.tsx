@@ -9,6 +9,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 export default function Main() {
   const [menuChecked, setMenuChecked] = useState<string>('menu');
   const router = useRouter();
+  const queryParams = useSearchParams();
 
   useEffect(() => {
     document.addEventListener('keydown', function (event) {
@@ -19,7 +20,15 @@ export default function Main() {
         }
       }
     });
-  }, []);
+
+    if (queryParams) {
+      const next = queryParams.get('id');
+      if (next) {
+        router.push(`?id=${next}`);
+        setMenuChecked(next);
+      }
+    }
+  }, [queryParams]);
 
   const handleMenu = (value: ChangeEvent) => {
     const id = value.target.id;

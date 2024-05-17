@@ -1,6 +1,21 @@
+import { createClient } from '@/utils/supabase/client';
 import { Table, Thead, Tbody, Tfoot, Tr, Th, Td, TableCaption, TableContainer } from '@chakra-ui/react';
+import { useEffect } from 'react';
 
-export default function BoardTable() {
+interface Props {
+  data: any[];
+}
+
+export default function BoardTable(props: Props) {
+  const supabase = createClient();
+  const { data } = props;
+
+  useEffect(() => {
+    if (data) {
+      console.log(data);
+    }
+  }, [data]);
+
   return (
     <TableContainer>
       <Table shadow="base" rounded="5px" size="xs" bgColor="#f7f3b7" variant="simple">
