@@ -4,11 +4,21 @@ import style from './board.module.css';
 import 'react-quill/dist/quill.snow.css';
 import './quill.css';
 import { createClient } from '@/utils/supabase/client';
+import { base64toFiles } from '@/utils/etc/img';
 
 export default function tuiEditor() {
   const [value, setValue] = useState<string>('');
 
   const onSubmitBtnClick = async () => {
+    const tmpDom = document.createElement('div');
+    tmpDom.innerHTML = value;
+    const imgs = tmpDom.getElementsByTagName('img');
+
+    const files = base64toFiles(imgs, 'id');
+    console.log(files);
+
+    return;
+
     const supabase = createClient();
     let { error } = await supabase
       .from('board')
