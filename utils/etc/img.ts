@@ -18,7 +18,7 @@ function base64toFiles(imgEl: HTMLCollectionOf<HTMLImageElement>, id: string) {
         u8arr[n] = bstr.charCodeAt(n);
       }
 
-      const filename = `${id}_${Date.now()}_${i}.png`; //유니크 파일명 생성
+      const filename = `${id}_${Date.now() + n}_${i}.png`; //유니크 파일명 생성
       files.push(new File([u8arr], filename, { type: mime }));
     }
   }
