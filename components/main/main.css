@@ -20,19 +20,19 @@ input[type='radio']:checked + section {
   transform-style: preserve-3d;
 }
 .container section.timer {
-  background: #079dd9;
+  background: #b4c8bb;
 }
 .container section.board {
-  background: #f2b90f;
+  background: #778c86;
 }
 .container section.youTube {
-  background: #218c03;
+  background: #919497;
 }
 .container section.myStudy {
-  background: #f26dc4;
+  background: #262a2d;
 }
 .container section.join {
-  background: #d9560b;
+  background: #c3c5c5;
 }
 
 .container section h1 {
@@ -169,26 +169,26 @@ input[type='radio']:checked + section {
   z-index: 96;
 }
 #menu:checked + .container section.timer {
-  top: 204px;
+  top: 250px;
 }
 #menu:checked + .container section.timer:hover {
-  top: 200px;
+  top: 242px;
 }
 #menu:checked + .container section.board {
-  top: 142px;
+  top: 170px;
 }
 #menu:checked + .container section.board:hover {
-  top: 138px;
+  top: 162px;
 }
 #menu:checked + .container section.youTube {
-  top: 80px;
+  top: 90px;
 }
 #menu:checked + .container section.youTube:hover {
-  top: 76px;
+  top: 82px;
 }
 #menu:checked + .container section.myStudy {
-  top: 18px;
+  top: 10px;
 }
 #menu:checked + .container section.myStudy:hover {
-  top: 14px;
+  top: 2px;
 }

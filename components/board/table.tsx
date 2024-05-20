@@ -1,9 +1,11 @@
 import { createClient } from '@/utils/supabase/client';
+import style from './board.module.css';
 import { Table, Thead, Tbody, Tfoot, Tr, Th, Td, TableCaption, TableContainer } from '@chakra-ui/react';
 import { useEffect } from 'react';
 
 interface Props {
-  data: any[];
+  data: Writing[];
+  onDataSend: (writing: Writing) => void;
 }
 
 export default function BoardTable(props: Props) {
@@ -17,7 +19,7 @@ export default function BoardTable(props: Props) {
 
   return (
     <TableContainer>
-      <Table shadow="base" rounded="5px" size="xs" bgColor="#f7f3b7" variant="simple">
+      <Table size="sm" variant="simple" className={style.boardTable}>
         <Thead>
           <Tr>
             <Th>분류</Th>
@@ -29,41 +31,23 @@ export default function BoardTable(props: Props) {
           </Tr>
         </Thead>
         <Tbody>
-          <Tr>
-            <Td>inches</Td>
-            <Td>millimetres (mm)</Td>
-            <Td isNumeric>25.4</Td>
-            <Td>inches</Td>
-            <Td>millimetres (mm)</Td>
-            <Td isNumeric>25.4</Td>
-          </Tr>
-          <Tr>
-            <Td>feet</Td>
-            <Td>centimetres (cm)</Td>
-            <Td isNumeric>30.48</Td>
-            <Td>inches</Td>
-            <Td>millimetres (mm)</Td>
-            <Td isNumeric>25.4</Td>
-          </Tr>
-          <Tr>
-            <Td>yards</Td>
-            <Td>metres (m)</Td>
-            <Td isNumeric>0.91444</Td>
-            <Td>inches</Td>
-            <Td>millimetres (mm)</Td>
-            <Td isNumeric>25.4</Td>
-          </Tr>
+          {data.map((row, index) => (
+            <Tr
+              className={style.tr}
+              onClick={() => {
+                props.onDataSend(row);
+              }}
+              key={index}
+            >
+              <Td>{row.category}</Td>
+              <Td>{row.title}</Td>
+              <Td>{row.member?.id}</Td>
+              <Td>{row.created_at}</Td>
+              <Td>{row.view_cnt}</Td>
+              <Td>{row.like_cnt}</Td>
+            </Tr>
+          ))}
         </Tbody>
-        <Tfoot>
-          <Tr>
-            <Th>To con94rf0r9io56897875r89t89vert</Th>
-            <Th>into</Th>
-            <Th isNumeric>multiply by</Th>
-            <Th>To convert</Th>
-            <Th>into</Th>
-            <Th isNumeric>multiply by</Th>
-          </Tr>
-        </Tfoot>
       </Table>
     </TableContainer>
   );

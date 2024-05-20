@@ -4,7 +4,7 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color: #079dd9;
+  background-color: #b4c8bb;
   color: white;
 }
 
@@ -19,17 +19,16 @@
 }
 
 .button {
-  background-color: #ff69b4;
-  color: white;
-  border: none;
+  background-color: white;
+  color: black;
+  border: 1px solid #262a2d;
   padding: 10px 20px;
   margin-right: 10px;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 18px;
+  font-size: 16px;
 }
 
 .button:hover {
-  background-color: #ff1493;
-  transform: scale(1.05);
+  background-color: #c3c5c5;
 }

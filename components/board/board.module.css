@@ -8,3 +8,37 @@
   width: 100%;
   margin-bottom: 10px;
 }
+
+.tr {
+  border-left: 2px solid white;
+}
+
+.tr:hover {
+  cursor: pointer;
+  background-color: #b4c8bb;
+  border-left: 2px solid black;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.boardTable {
+  background-color: white;
+}
+
+.buttons {
+  margin-top: 20px;
+}
+
+.button {
+  background-color: white;
+  color: black;
+  border: 1px solid #262a2d;
+  padding: 10px 20px;
+  margin-right: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.button:hover {
+  background-color: #c3c5c5;
+}

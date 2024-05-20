@@ -7,8 +7,9 @@ import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { useSearchParams } from 'next/navigation';
 import { createClient } from '@/utils/supabase/client';
+import Viewer from './viewer';
 
-const DynamicTuiEditor = dynamic(() => import('./tuiEditor'), {
+const DynamicEditor = dynamic(() => import('./editor'), {
   ssr: false,
   // loading: () => <p>Loading...</p>,
 });
@@ -16,6 +17,7 @@ const DynamicTuiEditor = dynamic(() => import('./tuiEditor'), {
 export default function Board() {
   const [boardState, setBoardState] = useState<string>('board');
   const [boardData, setBoardData] = useState<any[]>([]);
+  const [writing, SetWriting] = useState<Writing>();
   const queryParams = useSearchParams();
 
   const handleWriteBtn = () => {
@@ -28,9 +30,10 @@ export default function Board() {
 
   const getBoardData = async () => {
     const supabase = createClient();
+
     const { data, error } = await supabase.from('board').select(`
       *,
-      member:member_id (id)
+      member(id)
     `);
 
     if (data) {
@@ -39,10 +42,19 @@ export default function Board() {
     }
   };
 
+  const handleDataFromChild = (writing: Writing) => {
+    SetWriting(writing);
+    setBoardState('view');
+  };
+
   useEffect(() => {
     if (queryParams) {
       const id = queryParams.get('id');
-      if (id === 'board' && boardState === 'board') {
+      if (id !== 'board') {
+        setTimeout(() => {
+          setBoardState('board');
+        }, 500);
+      } else if (id === 'board' && boardState === 'board') {
         console.log('board refresh!');
         getBoardData();
       }
@@ -51,14 +63,17 @@ export default function Board() {
 
   return (
     <div className={style.container}>
-      {boardState === 'board' ? <BoardTable data={boardData} /> : null}
-      {boardState === 'write' ? <DynamicTuiEditor /> : null}
-      <Button colorScheme="blue" onClick={handleWriteBtn}>
-        글쓰기
-      </Button>
-      <Button colorScheme="blue" onClick={handleBoardBtn}>
-        게시판으로 가기
-      </Button>
+      {boardState === 'board' ? <BoardTable onDataSend={handleDataFromChild} data={boardData} /> : null}
+      {boardState === 'write' ? <DynamicEditor /> : null}
+      {boardState === 'view' && writing ? <Viewer writing={writing} /> : null}
+      <div className={style.buttons}>
+        <Button className={style.button} onClick={handleWriteBtn}>
+          글쓰기
+        </Button>
+        <Button className={style.button} onClick={handleBoardBtn}>
+          게시판으로 가기
+        </Button>
+      </div>
     </div>
   );
 }
