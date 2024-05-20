@@ -1,6 +1,6 @@
 .container {
   margin: 0px auto;
-  width: 90%;
+  max-width: 1600px;
   transform: translate(0, 10vh);
 }
 
@@ -21,6 +21,7 @@
 }
 
 .boardTable {
+  margin: 0px auto;
   background-color: white;
 }
 

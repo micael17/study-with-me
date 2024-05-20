@@ -20,14 +20,6 @@ export default function Board() {
   const [writing, SetWriting] = useState<Writing>();
   const queryParams = useSearchParams();
 
-  const handleWriteBtn = () => {
-    setBoardState('write');
-  };
-
-  const handleBoardBtn = () => {
-    setBoardState('board');
-  };
-
   const getBoardData = async () => {
     const supabase = createClient();
 
@@ -47,8 +39,13 @@ export default function Board() {
     setBoardState('view');
   };
 
+  const handleBoardState = (state: string) => {
+    setBoardState(state);
+  };
+
   useEffect(() => {
     if (queryParams) {
+      console.log('reload board!');
       const id = queryParams.get('id');
       if (id !== 'board') {
         setTimeout(() => {
@@ -63,17 +60,11 @@ export default function Board() {
 
   return (
     <div className={style.container}>
-      {boardState === 'board' ? <BoardTable onDataSend={handleDataFromChild} data={boardData} /> : null}
-      {boardState === 'write' ? <DynamicEditor /> : null}
-      {boardState === 'view' && writing ? <Viewer writing={writing} /> : null}
-      <div className={style.buttons}>
-        <Button className={style.button} onClick={handleWriteBtn}>
-          글쓰기
-        </Button>
-        <Button className={style.button} onClick={handleBoardBtn}>
-          게시판으로 가기
-        </Button>
-      </div>
+      {boardState === 'board' ? (
+        <BoardTable onDataSend={handleDataFromChild} onChangeBoardState={handleBoardState} data={boardData} />
+      ) : null}
+      {boardState === 'write' ? <DynamicEditor onChangeBoardState={handleBoardState} /> : null}
+      {boardState === 'view' && writing ? <Viewer writing={writing} onChangeBoardState={handleBoardState} /> : null}
     </div>
   );
 }

@@ -5,8 +5,13 @@ import 'react-quill/dist/quill.snow.css';
 import './quill.css';
 import { submitBoardWriting, uploadFileToSupabase } from '@/utils/supabase/client';
 import { base64toFiles } from '@/utils/etc/img';
+import { Button } from '@chakra-ui/react';
 
-export default function Editor() {
+interface Props {
+  onChangeBoardState: (state: string) => void;
+}
+
+export default function Editor(props: Props) {
   const [category, setCategory] = useState<string>('');
   const [title, setTitle] = useState<string>('');
   const [content, setContent] = useState<string>('');
@@ -54,26 +59,42 @@ export default function Editor() {
   };
 
   return (
-    <div className="text-editor">
-      <div>글 작성</div>
-      <input
-        type="text"
-        id="category"
-        placeholder="구분"
-        className={style.category}
-        value={category}
-        onChange={(e) => setCategory(e.target.value)}
-      ></input>
-      <input
-        type="text"
-        id="title"
-        placeholder="제목"
-        className={style.title}
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-      ></input>
-      <ReactQuill modules={modules} theme="snow" value={content} onChange={setContent} />
-      <button onClick={onSubmitBtnClick}>작성완료</button>
-    </div>
+    <>
+      <div className="text-editor">
+        <div>글 작성</div>
+        <input
+          type="text"
+          id="category"
+          placeholder="구분"
+          className={style.category}
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+        ></input>
+        <input
+          type="text"
+          id="title"
+          placeholder="제목"
+          className={style.title}
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        ></input>
+        <ReactQuill modules={modules} theme="snow" value={content} onChange={setContent} />
+      </div>
+
+      <div className={style.buttons}>
+        <Button className={style.button} onClick={onSubmitBtnClick}>
+          작성 완료
+        </Button>
+
+        <Button
+          className={style.button}
+          onClick={() => {
+            props.onChangeBoardState('board');
+          }}
+        >
+          게시판으로 가기
+        </Button>
+      </div>
+    </>
   );
 }
