@@ -7,7 +7,6 @@ interface Props {
 }
 
 export default function BoardTable(props: Props) {
-  const supabase = createClient();
   const { data } = props;
 
   useEffect(() => {
