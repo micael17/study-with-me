@@ -16,7 +16,7 @@
   transition: background-color 0.2s ease-in-out;
 }
 
-.boardTable .tr td a:hover {
+.boardTable .tr td > a:hover {
   text-decoration-color: black !important;
   text-decoration: underline !important;
 }

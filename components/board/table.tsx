@@ -3,7 +3,7 @@
 import { Table, Thead, Tbody, Tfoot, Tr, Th, Td, TableCaption, TableContainer, Button, Link } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import NextLink from 'next/link';
-import './board.css';
+import style from './table.module.css';
 
 interface Props {
   data: Writing[];
@@ -38,7 +38,7 @@ export default function BoardTable(props: Props) {
   return (
     <>
       <TableContainer>
-        <Table size="sm" variant="simple" className="boardTable">
+        <Table size="sm" variant="simple" className={style.boardTable}>
           <Thead>
             <Tr>
               <Th>분류</Th>
@@ -51,7 +51,7 @@ export default function BoardTable(props: Props) {
           </Thead>
           <Tbody>
             {data.map((row, index) => (
-              <Tr className="tr" key={index}>
+              <Tr className={style.tr} key={index}>
                 <Td>{row.category}</Td>
                 <Td>
                   <Link display="contents" as={NextLink} href="/">
@@ -68,8 +68,8 @@ export default function BoardTable(props: Props) {
         </Table>
       </TableContainer>
 
-      <div className="buttons">
-        <Button className="button">글쓰기</Button>
+      <div className={style.buttons}>
+        <Button className={style.button}>글쓰기</Button>
       </div>
     </>
   );
