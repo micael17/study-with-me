@@ -1,7 +1,15 @@
 /* theme.ts */
-import { extendTheme } from '@chakra-ui/react';
+import { extendTheme, textDecoration } from '@chakra-ui/react';
 
 export const theme = extendTheme({
+  styles: {
+    global: (props: any) => ({
+      'html, body': {
+        fontSize: 'md',
+        color: props.colorMode === 'dark' ? 'white' : 'gray.600',
+      },
+    }),
+  },
   fonts: {
     heading: 'var(--font-rubik)',
     body: 'var(--font-rubik)',

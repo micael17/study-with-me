@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import './timer.css'; // CSS 파일을 별도로 관리한다고 가정합니다.
+import style from './timer.module.css'; // CSS 파일을 별도로 관리한다고 가정합니다.
 import bellSound from '@/public/sounds/bell.mp3'; // 종소리 파일 경로
 
 export default function Timer() {
@@ -73,11 +73,11 @@ export default function Timer() {
   };
 
   return (
-    <div className="timer-window">
-      <div className="timer">
+    <div className={style.timer_window}>
+      <div className={style.timer}>
         <span>{minutes < 10 ? `0${minutes}` : minutes}</span>:<span>{seconds < 10 ? `0${seconds}` : seconds}</span>
       </div>
-      <div className="buttons">
+      <div className={style.buttons}>
         <button onClick={toggleTimer}>{isActive ? '일시정지' : '시작'}</button>
         <button onClick={resetTimer}>초기화</button>
       </div>

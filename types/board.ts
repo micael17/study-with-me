@@ -1,4 +1,5 @@
 interface Writing {
+  id: number;
   category: string;
   title: string;
   content: string;

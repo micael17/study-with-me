@@ -1,4 +1,4 @@
-.timer-window {
+.timer_window {
   position: fixed;
   bottom: 20px;
   right: 20px;
@@ -12,24 +12,24 @@
   z-index: 1000;
 }
 
-.timer-window .timer {
+.timer_window .timer {
   font-size: 72px;
   font-weight: bold;
   text-align: center;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-.timer-window p {
+.timer_window p {
   font-size: 2em;
   margin-top: 20px;
 }
 
-.timer-window .buttons {
+.timer_window .buttons {
   display: flex;
   justify-content: center;
 }
 
-.timer-window button {
+.timer_window button {
   background-color: white;
   color: black;
   border: 1px solid #262a2d;
@@ -41,6 +41,6 @@
   font-size: 16px;
 }
 
-.timer-window button:hover {
+.timer_window button:hover {
   background-color: var(--chakra-colors-dandelion-100);
 }

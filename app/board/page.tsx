@@ -3,7 +3,7 @@ import { Button, ButtonGroup } from '@chakra-ui/react';
 import { Suspense } from 'react';
 import { createClient } from '@/utils/supabase/client';
 
-export default async function Board() {
+export default async function BoardPage() {
   const getBoardData = async () => {
     const supabase = createClient();
     const { data, error } = await supabase.from('board').select(`
