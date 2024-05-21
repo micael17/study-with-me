@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { Providers } from './providers';
 import { fonts } from './fonts';
+import Header from '@/components/header/header';
+import Timer from '@/components/timer/timer';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -16,7 +18,11 @@ export default function RootLayout({
   return (
     <html lang="en" className={fonts.rubik.variable}>
       <body>
-        <Providers>{children}</Providers>
+        <Providers>
+          <Header />
+          {children}
+          <Timer />
+        </Providers>
       </body>
     </html>
   );

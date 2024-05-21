@@ -1,15 +1,15 @@
+header {
+  margin: 0;
+  padding: 50px;
+  font-weight: 300;
+  font-family: 'Raleway', sans-serif;
+  background: #fff;
+}
+
 body {
   margin: 0;
   padding: 0;
   font-weight: 300;
   font-family: 'Raleway', sans-serif;
   background: #fff;
-  background: radial-gradient(
-    ellipse at center,
-    rgba(0, 0, 0, 0) 0%,
-    rgba(0, 0, 0, 0.05) 80%,
-    rgba(0, 0, 0, 0.15) 100%
-  );
-  overflow: hidden;
-  transform-style: preserve-3d;
 }

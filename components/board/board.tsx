@@ -1,6 +1,6 @@
 'use client';
 
-import BoardTable from './table';
+import BoardTable from './table_old';
 import { Button, ButtonGroup } from '@chakra-ui/react';
 import style from './board.module.css';
 import { useEffect, useState } from 'react';

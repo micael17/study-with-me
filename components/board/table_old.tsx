@@ -1,12 +1,11 @@
-'use client';
-
-import { Table, Thead, Tbody, Tfoot, Tr, Th, Td, TableCaption, TableContainer, Button, Link } from '@chakra-ui/react';
+import style from './board.module.css';
+import { Table, Thead, Tbody, Tfoot, Tr, Th, Td, TableCaption, TableContainer, Button } from '@chakra-ui/react';
 import { useEffect } from 'react';
-import NextLink from 'next/link';
-import './board.css';
 
 interface Props {
   data: Writing[];
+  onDataSend: (writing: Writing) => void;
+  onChangeBoardState: (state: string) => void;
 }
 
 export default function BoardTable(props: Props) {
@@ -29,7 +28,7 @@ export default function BoardTable(props: Props) {
     return dateFormat2;
   };
 
-  useEffect(() => {
+  https: useEffect(() => {
     if (data) {
       console.log(data);
     }
@@ -38,7 +37,7 @@ export default function BoardTable(props: Props) {
   return (
     <>
       <TableContainer>
-        <Table size="sm" variant="simple" className="boardTable">
+        <Table size="sm" variant="simple" className={style.boardTable}>
           <Thead>
             <Tr>
               <Th>분류</Th>
@@ -51,15 +50,17 @@ export default function BoardTable(props: Props) {
           </Thead>
           <Tbody>
             {data.map((row, index) => (
-              <Tr className="tr" key={index}>
+              <Tr
+                className={style.tr}
+                onClick={() => {
+                  props.onDataSend(row);
+                }}
+                key={index}
+              >
                 <Td>{row.category}</Td>
-                <Td>
-                  <Link display="contents" as={NextLink} href="/">
-                    {row.title}
-                  </Link>
-                </Td>
+                <Td>{row.title}</Td>
                 <Td>{row.member?.id}</Td>
-                <Td>{dateFormat(row.created_at || '')}</Td>
+                <Td>{dateFormat(row.created_at)}</Td>
                 <Td>{row.view_cnt}</Td>
                 <Td>{row.like_cnt}</Td>
               </Tr>
@@ -68,8 +69,15 @@ export default function BoardTable(props: Props) {
         </Table>
       </TableContainer>
 
-      <div className="buttons">
-        <Button className="button">글쓰기</Button>
+      <div className={style.buttons}>
+        <Button
+          className={style.button}
+          onClick={() => {
+            props.onChangeBoardState('write');
+          }}
+        >
+          글쓰기
+        </Button>
       </div>
     </>
   );

@@ -1,0 +1,41 @@
+.container {
+  margin: 0px auto;
+  max-width: 1600px;
+}
+
+.boardTable {
+  background-color: white;
+}
+
+.boardTable .tr {
+  border-left: 2px solid white;
+}
+
+.boardTable .tr:hover {
+  background-color: var(--chakra-colors-dandelion-100);
+  transition: background-color 0.2s ease-in-out;
+}
+
+.boardTable .tr td a:hover {
+  text-decoration-color: black !important;
+  text-decoration: underline !important;
+}
+
+.buttons {
+  margin-top: 20px;
+}
+
+.button {
+  background-color: white;
+  color: black;
+  border: 1px solid #262a2d;
+  padding: 10px 20px;
+  margin-right: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.button:hover {
+  background-color: #c3c5c5;
+}
