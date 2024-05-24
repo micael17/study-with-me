@@ -1,7 +1,6 @@
-'use client';
-
 import Viewer from '@/components/board/viewer';
-import { useSearchParams } from 'next/navigation';
+import { getWritingContent } from '@/utils/supabase/client';
+import { Suspense } from 'react';
 
 interface Props {
   params: {
@@ -10,8 +9,14 @@ interface Props {
   searchParams: {};
 }
 
-export default function ViewPage(props: Props) {
-  console.log('id', props.params.id);
-  const data: Writing = {} as Writing;
-  return <Viewer writing={data} />;
+export default async function ViewPage(props: Props) {
+  const data: Writing = await getWritingContent(props.params.id);
+
+  return (
+    <>
+      <Suspense>
+        <Viewer writing={data} />
+      </Suspense>
+    </>
+  );
 }

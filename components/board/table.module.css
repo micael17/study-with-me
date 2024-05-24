@@ -39,3 +39,25 @@
 .button:hover {
   background-color: #c3c5c5;
 }
+
+.textViewer {
+  width: 100%;
+}
+
+.textViewer > .title {
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+
+.textViewer > .subTitle > div {
+  margin-left: 0.375rem;
+  margin-right: 0.375rem;
+}
+
+.textViewer > .subTitle > .id {
+  margin-left: 0;
+}
+
+.textViewer > .content {
+  margin: 10px 0;
+}

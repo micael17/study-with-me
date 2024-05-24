@@ -73,7 +73,13 @@ export default function BoardTable(props: Props) {
       </TableContainer>
 
       <div className={style.buttons}>
-        <Button className={style.button}>글쓰기</Button>
+        <Link
+          href={{
+            pathname: `/board/editor`,
+          }}
+        >
+          <Button className={style.button}>글쓰기</Button>
+        </Link>
       </div>
     </>
   );

@@ -5,6 +5,37 @@ export function createClient() {
   return createBrowserClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!);
 }
 
+export const getWritingList = async (): Promise<Writing[]> => {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from('board')
+    .select(
+      `
+    *,
+    member(id)
+  `,
+    )
+    .returns<Writing[]>();
+
+  return data as Writing[];
+};
+
+export const getWritingContent = async (id: number): Promise<Writing> => {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from('board')
+    .select(
+      `
+    *,
+    member(id)
+  `,
+    )
+    .eq('id', id)
+    .single<Writing>();
+
+  return data as Writing;
+};
+
 export const uploadFileToSupabase = async (files: File[]) => {
   const supabase = createClient();
   const urls: string[] = [];
@@ -36,7 +67,7 @@ export const submitBoardWriting = async (writingModel: Writing) => {
     category: writingModel.category,
     title: writingModel.title,
     content: writingModel.content,
-    member_id: writingModel.member_id || 1,
+    member_id: writingModel.member?.id || 1,
   });
 
   if (error) {

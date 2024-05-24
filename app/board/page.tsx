@@ -1,20 +1,8 @@
 import BoardTable from '@/components/board/table';
-import { Button, ButtonGroup } from '@chakra-ui/react';
-import { Suspense } from 'react';
-import { createClient } from '@/utils/supabase/client';
+import { getWritingList } from '@/utils/supabase/client';
 
 export default async function BoardPage() {
-  const getBoardData = async () => {
-    const supabase = createClient();
-    const { data, error } = await supabase.from('board').select(`
-      *,
-      member(id)
-    `);
-
-    return data as Writing[];
-  };
-
-  const data: Writing[] = await getBoardData();
+  const data: Writing[] = await getWritingList();
 
   return (
     <div className="container">

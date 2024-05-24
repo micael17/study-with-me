@@ -16,9 +16,12 @@ export const theme = extendTheme({
       },
       header: {
         margin: '0 auto',
-        padding: '50px',
+        padding: '50px 0',
         fontWeight: 300,
         background: '#fff',
+      },
+      hr: {
+        margin: '10px 0',
       },
     }),
   },

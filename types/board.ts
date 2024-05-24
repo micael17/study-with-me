@@ -1,5 +1,5 @@
 interface Writing {
-  id: number;
+  id?: number;
   category: string;
   title: string;
   content: string;
@@ -8,5 +8,6 @@ interface Writing {
   };
   created_at?: string;
   view_cnt?: number;
+  reply_cnt?: number;
   like_cnt?: number;
 }

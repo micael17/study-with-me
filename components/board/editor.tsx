@@ -1,20 +1,31 @@
-import { useEffect, useRef, useState } from 'react';
-import ReactQuill from 'react-quill';
-import style from './board.module.css';
-import 'react-quill/dist/quill.snow.css';
-import './quill.css';
+'use client';
+
+import { useState } from 'react';
+import dynamic from 'next/dynamic';
+// Dynamically import ReactQuill with no SSR
+const ReactQuill = dynamic(() => import('react-quill'), {
+  ssr: false,
+});
 import { submitBoardWriting, uploadFileToSupabase } from '@/utils/supabase/client';
 import { base64toFiles } from '@/utils/etc/img';
 import { Button } from '@chakra-ui/react';
+import Link from 'next/link';
+
+import style from './table.module.css';
+import 'react-quill/dist/quill.snow.css';
+import './quill.css';
+import { useRouter } from 'next/navigation';
 
 interface Props {
-  onChangeBoardState: (state: string) => void;
+  writing: Writing;
 }
 
 export default function Editor(props: Props) {
-  const [category, setCategory] = useState<string>('');
-  const [title, setTitle] = useState<string>('');
-  const [content, setContent] = useState<string>('');
+  const [category, setCategory] = useState<string>(props.writing.category || '');
+  const [title, setTitle] = useState<string>(props.writing.title || '');
+  const [content, setContent] = useState<string>(props.writing.content || '');
+
+  const router = useRouter();
 
   const onSubmitBtnClick = async () => {
     const tmpDom = document.createElement('div');
@@ -25,26 +36,27 @@ export default function Editor(props: Props) {
     if (files) {
       urls = await uploadFileToSupabase(files);
 
-      let tmpValue = content;
-      if (urls.length === imgs.length) {
-        for (let i = 0; i < imgs.length; i++) {
-          tmpValue = tmpValue.replace(imgs[i].src, urls[i]);
-        }
-        setContent(tmpValue);
-      } else {
+      if (urls.length !== imgs.length) {
         console.error('err: 이미지 업로드개수와 태그개수가 일치하지 않습니다.');
         alert('에러) 이미지 업로드에 실패했습니다.');
+        return;
+      }
+
+      for (let i = 0; i < imgs.length; i++) {
+        tmpDom.innerHTML = tmpDom.innerHTML.replace(imgs[i].src, urls[i]);
       }
     }
 
+    setContent(tmpDom.innerHTML);
     const writingModel: Writing = {
       category: category,
-      content: content,
+      content: tmpDom.innerHTML,
       title: title,
     };
+
     const res = await submitBoardWriting(writingModel);
     if (res === true) {
-      location.reload();
+      router.push('/board');
     }
   };
 
@@ -85,15 +97,9 @@ export default function Editor(props: Props) {
         <Button className={style.button} onClick={onSubmitBtnClick}>
           작성 완료
         </Button>
-
-        <Button
-          className={style.button}
-          onClick={() => {
-            props.onChangeBoardState('board');
-          }}
-        >
-          게시판으로 가기
-        </Button>
+        <Link href="/board">
+          <Button className={style.button}>게시판으로 가기</Button>
+        </Link>
       </div>
     </>
   );
