@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { Providers } from './providers';
-import { fonts } from './fonts';
+// import { fonts } from './fonts';
 import Header from '@/app/header';
 import Timer from '@/components/timer/timer';
 import './globals.css';
@@ -16,7 +16,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={fonts.rubik.variable}>
+    <html lang="en">
       <body>
         <Providers>
           <Header />

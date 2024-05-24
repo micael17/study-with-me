@@ -1,14 +1,14 @@
-header {
-  margin: 0;
-  padding: 50px;
-  font-weight: 300;
-  font-family: 'Raleway', sans-serif;
-  background: #fff;
+@font-face {
+  font-family: 'Rubik';
+  font-style: bold;
+  font-weight: 500;
+  font-display: auto;
+  src: url('/public/fonts/Rubik/Rubik-VariableFont_wght.ttf') format('ttf');
 }
-
-body {
-  width: 1000px;
+@font-face {
+  font-family: 'Noto Sans KR';
+  font-style: normal;
   font-weight: 300;
-  font-family: 'Raleway', sans-serif;
-  background: #fff;
+  font-display: swap;
+  src: url('/public/fonts/Noto_Sans_KR/NotoSansKR-VariableFont_wght.ttf') format('ttf');
 }

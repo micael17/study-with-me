@@ -4,15 +4,27 @@ import { extendTheme, textDecoration } from '@chakra-ui/react';
 export const theme = extendTheme({
   styles: {
     global: (props: any) => ({
-      'html, body': {
+      body: {
         fontSize: 'md',
         color: props.colorMode === 'dark' ? 'white' : 'gray.600',
+        maxWidth: '1600px',
+        width: '100%',
+        margin: '0 auto',
+        fontWeight: 300,
+
+        background: '#fff',
+      },
+      header: {
+        margin: '0 auto',
+        padding: '50px',
+        fontWeight: 300,
+        background: '#fff',
       },
     }),
   },
   fonts: {
-    heading: 'var(--font-rubik)',
-    body: 'var(--font-rubik)',
+    heading: `'Rubik', sans-serif`,
+    body: `'Rubik', sans-serif`,
   },
   colors: {
     brand: {
