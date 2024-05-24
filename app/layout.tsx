@@ -1,9 +1,7 @@
 import type { Metadata } from 'next';
 import { Providers } from './providers';
-// import { fonts } from './fonts';
 import Header from '@/app/header';
 import Timer from '@/components/timer/timer';
-import './globals.css';
 
 export const metadata: Metadata = {
   title: 'Create Next App',

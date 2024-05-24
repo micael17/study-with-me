@@ -24,7 +24,7 @@ export const theme = extendTheme({
   },
   fonts: {
     heading: `'Rubik', sans-serif`,
-    body: `'Rubik', sans-serif`,
+    body: `'Noto Sans KR', sans-serif`,
   },
   colors: {
     brand: {
