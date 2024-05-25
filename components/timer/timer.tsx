@@ -9,6 +9,7 @@ export default function Timer() {
   const [seconds, setSeconds] = useState(0);
   const [isActive, setIsActive] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
 
   // 컴포넌트가 마운트될 때 로컬 스토리지에서 상태 불러오기
   useEffect(() => {
@@ -16,8 +17,7 @@ export default function Timer() {
     const savedSeconds = localStorage.getItem('seconds');
     const savedIsActive = localStorage.getItem('isActive');
     const savedIsFinished = localStorage.getItem('isFinished');
-
-    console.log('savedIsActive', savedIsActive);
+    setIsMounted(true);
 
     if (savedMinutes !== null) setMinutes(JSON.parse(savedMinutes));
     if (savedSeconds !== null) setSeconds(JSON.parse(savedSeconds));
@@ -72,10 +72,24 @@ export default function Timer() {
     audio.play();
   };
 
+  const Timer = () => {
+    return (
+      <>
+        <span>{minutes < 10 ? `0${minutes}` : minutes}</span>:<span>{seconds < 10 ? `0${seconds}` : seconds}</span>
+      </>
+    );
+  };
+
   return (
     <div className={style.timer_window}>
       <div className={style.timer}>
-        <span>{minutes < 10 ? `0${minutes}` : minutes}</span>:<span>{seconds < 10 ? `0${seconds}` : seconds}</span>
+        {isMounted ? (
+          Timer()
+        ) : (
+          <>
+            <span>--</span>:<span>--</span>
+          </>
+        )}
       </div>
       <div className={style.buttons}>
         <button onClick={toggleTimer}>{isActive ? '일시정지' : '시작'}</button>

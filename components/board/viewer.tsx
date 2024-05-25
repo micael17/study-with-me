@@ -46,7 +46,7 @@ export default function Viewer(props: Props) {
         </Flex>
         <hr />
         <div className={style.content} dangerouslySetInnerHTML={createMarkup(props.writing.content)}></div>
-        {/* <ReactQuill readOnly modules={modules} theme="snow" value={props.writing.content} /> */}
+        {/*ReactQuill readOnly modules={modules} theme="snow" value={props.writing.content} /> */}
       </div>
       <hr />
       <div className={style.comment_container}>

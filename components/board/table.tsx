@@ -1,9 +1,9 @@
 'use client';
 
-import { Table, Thead, Tbody, Tfoot, Tr, Th, Td, TableCaption, TableContainer, Button } from '@chakra-ui/react';
+import { Table, Thead, Tbody, Tfoot, Tr, Th, Td, TableCaption, TableContainer, Button, Link } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import style from './table.module.css';
-import Link from 'next/link';
+import NextLink from 'next/link';
 
 interface Props {
   data: Writing[];
@@ -54,11 +54,7 @@ export default function BoardTable(props: Props) {
               <Tr className={style.tr} key={index}>
                 <Td>{row.category}</Td>
                 <Td>
-                  <Link
-                    href={{
-                      pathname: `/board/${row.id}`,
-                    }}
-                  >
+                  <Link as={NextLink} href={`/board/${row.id}`}>
                     {row.title}
                   </Link>
                 </Td>
@@ -73,11 +69,7 @@ export default function BoardTable(props: Props) {
       </TableContainer>
 
       <div className={style.buttons}>
-        <Link
-          href={{
-            pathname: `/board/editor`,
-          }}
-        >
+        <Link as={NextLink} href="/board/editor">
           <Button className={style.button}>글쓰기</Button>
         </Link>
       </div>
