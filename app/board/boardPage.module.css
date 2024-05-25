@@ -1,3 +1,8 @@
 .container {
-  margin-left: 400px;
+  display: block;
+}
+
+.container > hr {
+  margin: 20px 0;
+  visibility: hidden;
 }

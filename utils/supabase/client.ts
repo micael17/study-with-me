@@ -20,6 +20,24 @@ export const getWritingList = async (): Promise<Writing[]> => {
   return data as Writing[];
 };
 
+export const getNoticeList = async (): Promise<Writing[]> => {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from('board')
+    .select(
+      `
+    *,
+    member(id)
+  `,
+    )
+    .eq('category', 'notice')
+    .eq('member_id', 1)
+    .eq('isDel', false)
+    .returns<Writing[]>();
+
+  return data as Writing[];
+};
+
 export const getWritingContent = async (id: number): Promise<Writing> => {
   const supabase = createClient();
   const { data, error } = await supabase

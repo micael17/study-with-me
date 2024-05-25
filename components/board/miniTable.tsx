@@ -1,16 +1,16 @@
 'use client';
 
-import { Table, Thead, Tbody, Tfoot, Tr, Th, Td, TableCaption, TableContainer, Button, Link } from '@chakra-ui/react';
+import { Table, Thead, Tbody, Tr, Th, Td, TableContainer, Button } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import style from './table.module.css';
-import NextLink from 'next/link';
+import Link from 'next/link';
 
 interface Props {
   title: string;
   data: Writing[];
 }
 
-export default function BoardTable(props: Props) {
+export default function MiniBoardTable(props: Props) {
   const { data } = props;
 
   const dateFormat = (dateString: string) => {
@@ -45,39 +45,29 @@ export default function BoardTable(props: Props) {
           <Thead>
             <Tr>
               <Th w="100px" textAlign={'center'}>
-                분류
+                순서
               </Th>
               <Th textAlign={'center'}>제목</Th>
-              <Th textAlign={'center'}>글쓴이</Th>
-              <Th textAlign={'center'}>날짜</Th>
-              <Th textAlign={'center'}>조회</Th>
-              <Th textAlign={'center'}>추천</Th>
             </Tr>
           </Thead>
           <Tbody>
             {data.map((row, index) => (
               <Tr className={style.tr} key={index}>
-                <Td textAlign={'center'}>{row.category}</Td>
+                <Td textAlign={'center'}>{index + 1}</Td>
                 <Td>
-                  <Link as={NextLink} href={`/board/${row.id}`}>
+                  <Link
+                    href={{
+                      pathname: `/board/${row.id}`,
+                    }}
+                  >
                     {row.title}
                   </Link>
                 </Td>
-                <Td textAlign={'center'}>{row.member?.id}</Td>
-                <Td textAlign={'center'}>{dateFormat(row.created_at || '')}</Td>
-                <Td textAlign={'center'}>{row.view_cnt}</Td>
-                <Td textAlign={'center'}>{row.like_cnt}</Td>
               </Tr>
             ))}
           </Tbody>
         </Table>
       </TableContainer>
-
-      <div className={style.buttons}>
-        <Link as={NextLink} href="/board/editor">
-          <Button className={style.button}>글쓰기</Button>
-        </Link>
-      </div>
     </>
   );
 }
