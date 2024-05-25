@@ -31,11 +31,10 @@ export default function Viewer(props: Props) {
   return (
     <>
       <div className={style.textViewer}>
+        <div>{props.writing.category}</div>
         <div className={style.title}>{props.writing.title}</div>
         <Flex className={style.subTitle} align="left" alignItems="flex-start">
           <div className={style.id}>by {props.writing.member!.id}</div>
-          <span>•</span>
-          <div>{props.writing.category}</div>
           <span>•</span>
           <div>{formatTimeAgo(props.writing.created_at || '')}</div>
           <span>•</span>
