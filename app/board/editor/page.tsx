@@ -4,7 +4,7 @@ import { getWritingContent, getWritingList } from '@/utils/supabase/client';
 
 interface Props {
   params: {
-    id: number;
+    board_id: number;
   };
   searchParams: {};
 }
@@ -15,8 +15,8 @@ export default async function EditorPage(props: Props) {
     content: '',
     title: '',
   };
-  if (props.params.id) {
-    data = await getWritingContent(props.params.id);
+  if (props.params.board_id) {
+    data = await getWritingContent(props.params.board_id);
   }
 
   return (

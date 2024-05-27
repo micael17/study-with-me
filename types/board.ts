@@ -1,5 +1,5 @@
 interface Writing {
-  id?: number;
+  board_id?: number;
   category: string;
   title: string;
   content: string;

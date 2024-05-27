@@ -59,7 +59,7 @@ export default function BoardTable(props: Props) {
               <Tr className={style.tr} key={index}>
                 <Td textAlign={'center'}>{row.category}</Td>
                 <Td>
-                  <Link as={NextLink} href={`/board/${row.id}`}>
+                  <Link as={NextLink} href={`/board/${row.board_id}`}>
                     {row.title}
                   </Link>
                 </Td>

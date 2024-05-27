@@ -1,0 +1,73 @@
+.container {
+  margin: 0px auto;
+  max-width: 1600px;
+}
+
+.buttons {
+  margin-top: 20px;
+}
+
+.button {
+  background-color: white;
+  color: black;
+  border: 1px solid #262a2d;
+  padding: 10px 20px;
+  margin-right: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.button:hover {
+  background-color: #c3c5c5;
+}
+
+/* 댓글 컨테이너 스타일 */
+.reply_container {
+  margin-top: 10px;
+}
+
+.reply_cnt {
+  margin: 10px 0;
+  font-weight: bold;
+}
+
+/* 각 댓글 스타일 */
+.reply {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+  overflow: hidden; /* 내용이 넘치면 가리지 않고 잘립니다 */
+}
+
+/* 작성자와 날짜 스타일 */
+.reply_header {
+  margin-bottom: 5px;
+}
+
+.reply_info {
+  font-size: 0.8em;
+  color: #666;
+}
+
+/* 댓글의 댓글 스타일 */
+.nested_reply {
+  margin-left: 30px; /* 좀 더 여백을 줍니다 */
+}
+
+.reply_content p {
+  margin: 0;
+}
+
+.replyEditor {
+  margin: 10px 0;
+}
+
+.replyEditor > Input {
+  margin: 10px 0;
+}
+
+.replyEditor > Button {
+  margin: 10px 0;
+}

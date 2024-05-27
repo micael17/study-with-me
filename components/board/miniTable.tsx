@@ -57,7 +57,7 @@ export default function MiniBoardTable(props: Props) {
                 <Td>
                   <Link
                     href={{
-                      pathname: `/board/${row.id}`,
+                      pathname: `/board/${row.board_id}`,
                     }}
                   >
                     {row.title}

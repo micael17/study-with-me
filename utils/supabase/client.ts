@@ -38,7 +38,7 @@ export const getNoticeList = async (): Promise<Writing[]> => {
   return data as Writing[];
 };
 
-export const getWritingContent = async (id: number): Promise<Writing> => {
+export const getWritingContent = async (board_id: number): Promise<Writing> => {
   const supabase = createClient();
   const { data, error } = await supabase
     .from('board')
@@ -48,7 +48,7 @@ export const getWritingContent = async (id: number): Promise<Writing> => {
     member(id)
   `,
     )
-    .eq('id', id)
+    .eq('board_id', board_id)
     .single<Writing>();
 
   return data as Writing;

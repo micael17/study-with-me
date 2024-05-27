@@ -21,6 +21,23 @@ export const theme = extendTheme({
       hr: {
         margin: '10px 0',
       },
+      '.buttons': {
+        marginTop: '20px',
+      },
+      Button: {
+        backgroundColor: 'white',
+        color: 'black',
+        border: '1px solid #262a2d',
+        padding: '10px 20px',
+        marginRight: '10px',
+        borderRadius: '5px',
+        cursor: 'pointer',
+        fontSize: '16px',
+      },
+
+      'Button:hover': {
+        backgroundColor: '#c3c5c5',
+      },
     }),
   },
   fonts: {
