@@ -3,13 +3,24 @@
 import React, { useState, useEffect } from 'react';
 import style from './timer.module.css'; // CSS 파일을 별도로 관리한다고 가정합니다.
 import bellSound from '@/public/sounds/bell.mp3'; // 종소리 파일 경로
+import { Button } from '@chakra-ui/react';
 
 export default function Timer() {
-  const [minutes, setMinutes] = useState(25);
-  const [seconds, setSeconds] = useState(0);
+  const initMinutes = 25;
+  const initSeconds = 0;
+  const [minutes, setMinutes] = useState(initMinutes);
+  const [seconds, setSeconds] = useState(initSeconds);
   const [isActive, setIsActive] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
+  const [isMinimized, setIsMinimized] = useState(false); // 최소화 상태 추가
+
+  const setLocalStorage = (isInit: boolean = false) => {
+    localStorage.setItem('minutes', isInit ? JSON.stringify(initMinutes) : JSON.stringify(minutes));
+    localStorage.setItem('seconds', isInit ? JSON.stringify(initSeconds) : JSON.stringify(seconds));
+    localStorage.setItem('isActive', isInit ? JSON.stringify(false) : JSON.stringify(isActive));
+    localStorage.setItem('isFinished', isInit ? JSON.stringify(false) : JSON.stringify(isFinished));
+  };
 
   // 컴포넌트가 마운트될 때 로컬 스토리지에서 상태 불러오기
   useEffect(() => {
@@ -28,10 +39,7 @@ export default function Timer() {
   useEffect(() => {
     if (isActive && typeof window !== 'undefined') {
       // 브라우저 환경인지 확인
-      localStorage.setItem('minutes', JSON.stringify(minutes));
-      localStorage.setItem('seconds', JSON.stringify(seconds));
-      localStorage.setItem('isActive', JSON.stringify(isActive));
-      localStorage.setItem('isFinished', JSON.stringify(isFinished));
+      setLocalStorage(false);
     }
 
     let intervalId: NodeJS.Timeout;
@@ -65,6 +73,7 @@ export default function Timer() {
     setMinutes(25);
     setSeconds(0);
     setIsFinished(false);
+    setLocalStorage(true);
   };
 
   const playBellSound = () => {
@@ -80,8 +89,17 @@ export default function Timer() {
     );
   };
 
+  const toggleMinimize = () => {
+    setIsMinimized(!isMinimized);
+  };
+
   return (
-    <div className={style.timer_window}>
+    <div className={`${style.timer_window} ${isMinimized ? style.minimized : ''}`}>
+      <div className={style.header}>
+        <Button size="xs" onClick={toggleMinimize}>
+          {isMinimized ? '열기' : '닫기'}
+        </Button>
+      </div>
       <div className={style.timer}>
         {isMounted ? (
           Timer()
@@ -92,8 +110,8 @@ export default function Timer() {
         )}
       </div>
       <div className={style.buttons}>
-        <button onClick={toggleTimer}>{isActive ? '일시정지' : '시작'}</button>
-        <button onClick={resetTimer}>초기화</button>
+        <Button onClick={toggleTimer}>{isActive ? '일시정지' : '시작'}</Button>
+        <Button onClick={resetTimer}>초기화</Button>
       </div>
       {isFinished && <p>타이머가 종료되었습니다!</p>}
     </div>

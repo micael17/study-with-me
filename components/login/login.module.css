@@ -1,13 +1,11 @@
 .container {
-  height: 100vh;
-  width: 300px;
-  margin: 0px auto;
+  height: 50vh;
 }
 
 .child {
   width: 300px;
-  position: absolute;
-  text-align: center;
+  position: relative;
+  margin: 0px auto;
   top: 20%;
   /* transform: translateY(-20%); */
 }

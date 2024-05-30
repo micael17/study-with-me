@@ -96,3 +96,24 @@ export const submitBoardWriting = async (writingModel: Writing) => {
   }
   return result;
 };
+
+export const submitReply = async (replyModel: Reply) => {
+  const supabase = createClient();
+  let result: boolean = false;
+
+  let { error } = await supabase.from('reply').insert({
+    board_id: replyModel.board_id,
+    content: replyModel.content,
+    member_id: replyModel.member_id,
+    isNested: replyModel.isNested,
+    mention_member_id: replyModel.mention_member_id,
+  });
+
+  if (error) {
+    console.log(error);
+    alert('글 작성 중 오류가 발생했습니다.');
+  } else {
+    result = true;
+  }
+  return result;
+};

@@ -21,25 +21,6 @@
   text-decoration: underline !important;
 }
 
-.buttons {
-  margin-top: 20px;
-}
-
-.button {
-  background-color: white;
-  color: black;
-  border: 1px solid #262a2d;
-  padding: 10px 20px;
-  margin-right: 10px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-.button:hover {
-  background-color: #c3c5c5;
-}
-
 .textViewer {
   width: 100%;
 }

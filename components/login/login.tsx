@@ -4,6 +4,7 @@ import { createClient } from '@/utils/supabase/client';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import styles from './login.module.css';
+import { Button, Input } from '@chakra-ui/react';
 
 export default function Login() {
   const [loginId, setLoginId] = useState<string>('');
@@ -27,23 +28,25 @@ export default function Login() {
   return (
     <div className={styles.container}>
       <div className={styles.child}>
-        <h1>Login</h1>
+        <h1>로그인</h1>
+        <hr />
         <form className={styles.form} action="/" onSubmit={handleSubmit}>
-          <input
+          <Input
             type="text"
             placeholder="ID"
             value={loginId}
             onChange={(event) => setLoginId(event.target.value)}
             required
           />
-          <input
+          <Input
             type="password"
             placeholder="Password"
             value={loginPwd}
             onChange={(event) => setLoginPwd(event.target.value)}
             required
           />
-          <button type="submit">Login</button>
+          <hr />
+          <Button type="submit">Login</Button>
         </form>
       </div>
     </div>
