@@ -1,5 +1,5 @@
 interface Writing {
-  board_id?: number;
+  writing_id?: number;
   category: string;
   title: string;
   content: string;
@@ -10,4 +10,5 @@ interface Writing {
   view_cnt?: number;
   reply_cnt?: number;
   like_cnt?: number;
+  board_id?: number;
 }

@@ -1,4 +1,3 @@
-import Info from '@/components/info/info';
 import { Box, Select, SimpleGrid } from '@chakra-ui/react';
 
 export default function Page() {

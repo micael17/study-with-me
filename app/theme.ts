@@ -24,20 +24,18 @@ export const theme = extendTheme({
       '.buttons': {
         marginTop: '20px',
       },
-      Button: {
+      /* Button: {
         backgroundColor: 'white',
         color: 'black',
-        border: '1px solid #262a2d',
         padding: '10px 20px',
         marginRight: '10px',
         borderRadius: '5px',
         cursor: 'pointer',
-        fontSize: '16px',
-      },
+      }, */
 
-      'Button:hover': {
+      /* 'Button:hover': {
         backgroundColor: '#c3c5c5',
-      },
+      }, */
     }),
   },
   fonts: {

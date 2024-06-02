@@ -5,11 +5,20 @@ import style from './reply.module.css';
 import { useState } from 'react';
 import AutoResizeTextarea from './autoResizeTextarea';
 import { submitReply } from '@/utils/supabase/client';
+import { useRouter } from 'next/navigation';
 
-export default function ReplyEditor() {
+interface Prop {
+  writing_id: number;
+  member_id?: number;
+  origin_reply_id?: number;
+  isReReply: boolean;
+}
+
+export default function ReplyEditor(props: Prop) {
   const [content, setContent] = useState<string>('');
+  const router = useRouter();
 
-  const onSubmitReply = () => {
+  const onSubmitReply = async () => {
     // 댓글에서 의미 없는 줄바꿈 제거
     const cleanedContent = content
       .trim() // 문자열의 앞뒤 공백 제거
@@ -20,15 +29,23 @@ export default function ReplyEditor() {
       return;
     }
 
-    /* const reply: Reply = {
-      board_id: 0,
+    const reply: ReplyForPost = {
+      writing_id: props.writing_id,
       content: cleanedContent,
-      member_id: member_id,
-      isNested: isNested,
-      mention_member_id: mention_member_id,
-    } */
+      member_id: props.member_id || 1,
+      origin_reply_id: props.origin_reply_id || null,
+      is_del: false,
+      is_nested: props.isReReply,
+      member: {
+        id: 1,
+      },
+    };
 
-    // submitReply();
+    const result = await submitReply(reply);
+    if (result) {
+      //@TODO 새로고침말고 컴포넌트만 새로불러오기
+      router.refresh();
+    }
   };
 
   return (
@@ -37,7 +54,6 @@ export default function ReplyEditor() {
         <AutoResizeTextarea value={content} onChange={setContent}></AutoResizeTextarea>
         <Button onClick={onSubmitReply}>댓글 쓰기</Button>
       </div>
-      <hr />
     </>
   );
 }

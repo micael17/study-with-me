@@ -8,7 +8,7 @@ export function createClient() {
 export const getWritingList = async (): Promise<Writing[]> => {
   const supabase = createClient();
   const { data, error } = await supabase
-    .from('board')
+    .from('writing')
     .select(
       `
     *,
@@ -23,7 +23,7 @@ export const getWritingList = async (): Promise<Writing[]> => {
 export const getNoticeList = async (): Promise<Writing[]> => {
   const supabase = createClient();
   const { data, error } = await supabase
-    .from('board')
+    .from('writing')
     .select(
       `
     *,
@@ -32,23 +32,23 @@ export const getNoticeList = async (): Promise<Writing[]> => {
     )
     .eq('category', 'notice')
     .eq('member_id', 1)
-    .eq('isDel', false)
+    .eq('is_del', false)
     .returns<Writing[]>();
 
   return data as Writing[];
 };
 
-export const getWritingContent = async (board_id: number): Promise<Writing> => {
+export const getWritingContent = async (writing_id: number): Promise<Writing> => {
   const supabase = createClient();
   const { data, error } = await supabase
-    .from('board')
+    .from('writing')
     .select(
       `
     *,
     member(id)
   `,
     )
-    .eq('board_id', board_id)
+    .eq('writing_id', writing_id)
     .single<Writing>();
 
   return data as Writing;
@@ -81,7 +81,7 @@ export const submitBoardWriting = async (writingModel: Writing) => {
   const supabase = createClient();
   let result: boolean = false;
 
-  let { error } = await supabase.from('board').insert({
+  let { error } = await supabase.from('writing').insert({
     category: writingModel.category,
     title: writingModel.title,
     content: writingModel.content,
@@ -97,16 +97,17 @@ export const submitBoardWriting = async (writingModel: Writing) => {
   return result;
 };
 
-export const submitReply = async (replyModel: Reply) => {
+export const submitReply = async (replyModel: ReplyForPost) => {
   const supabase = createClient();
   let result: boolean = false;
 
   let { error } = await supabase.from('reply').insert({
-    board_id: replyModel.board_id,
+    writing_id: replyModel.writing_id,
     content: replyModel.content,
     member_id: replyModel.member_id,
-    isNested: replyModel.isNested,
-    mention_member_id: replyModel.mention_member_id,
+    is_nested: replyModel.is_nested || false,
+    is_del: replyModel.is_del || false,
+    origin_reply_id: replyModel.origin_reply_id,
   });
 
   if (error) {
@@ -116,4 +117,30 @@ export const submitReply = async (replyModel: Reply) => {
     result = true;
   }
   return result;
+};
+
+export const getReplyList = async (writing_id: number): Promise<Reply[]> => {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from('reply')
+    .select(
+      `
+        *,
+        member(id)
+      `,
+    )
+    .eq('writing_id', writing_id)
+    .returns<Reply[]>();
+
+  return data as Reply[];
+};
+
+export const getReplyListRPC = async (writing_id: number): Promise<Reply[]> => {
+  const supabase = createClient();
+  const { data, error } = await supabase.rpc('get_comment_hierarchy', { p_writing_id: writing_id }).returns<Reply[]>();
+  if (error) {
+    console.error('Error fetching comments:', error);
+    return [] as Reply[];
+  }
+  return data as Reply[];
 };

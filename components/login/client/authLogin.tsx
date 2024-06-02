@@ -3,11 +3,18 @@
 import { createClient } from '@/utils/supabase/client';
 import { Auth } from '@supabase/auth-ui-react';
 import { ThemeSupa } from '@supabase/auth-ui-shared';
+import { useEffect, useState } from 'react';
+
+const supabase = createClient();
 
 export default function App() {
-  const supabase = createClient();
+  const [isReady, setIsReady] = useState<boolean>(false);
 
-  return (
+  useEffect(() => {
+    setIsReady(true);
+  }, []);
+
+  return isReady ? (
     <Auth
       supabaseClient={supabase}
       appearance={{
@@ -22,5 +29,7 @@ export default function App() {
       }}
       providers={['google', 'kakao']}
     />
+  ) : (
+    <></>
   );
 }
