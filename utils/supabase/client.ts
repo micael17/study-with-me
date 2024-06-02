@@ -144,3 +144,23 @@ export const getReplyListRPC = async (writing_id: number): Promise<Reply[]> => {
   }
   return data as Reply[];
 };
+
+export const signUp = async (email: string, password: string, id: string) => {
+  const supabase = createClient();
+  const { error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      data: {
+        id,
+      },
+    },
+  });
+
+  if (error) {
+    console.log('Error Sign Up:', error);
+    return error.status;
+  } else {
+    return 200;
+  }
+};
