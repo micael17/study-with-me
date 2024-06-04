@@ -11,7 +11,7 @@ export const theme = extendTheme({
         width: '100%',
         margin: '0 auto',
         fontWeight: 300,
-        background: '#fff',
+        background: 'main.1',
       },
       header: {
         margin: '0 auto',
@@ -48,12 +48,18 @@ export const theme = extendTheme({
       800: '#153e75',
       700: '#2a69ac',
     },
+    main: {
+      1: '#FFFAE6',
+      2: '#FF9F66',
+      3: '#FF5F00',
+      4: '#002379',
+    },
     teal: {
       500: '#319795',
     },
     dandelion: {
       100: '#FFE066',
-      200: 'FFDA49',
+      200: '#FFDA49',
     },
   },
 });
