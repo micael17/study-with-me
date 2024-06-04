@@ -11,9 +11,10 @@ export const theme = extendTheme({
         width: '100%',
         margin: '0 auto',
         fontWeight: 300,
-        background: 'main.1',
+        background: '#fff',
       },
       header: {
+        width: '100%',
         margin: '0 auto',
         fontWeight: 300,
         background: '#fff',
