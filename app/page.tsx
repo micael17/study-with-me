@@ -1,4 +1,5 @@
 import MainGrid from '@/components/youtube/client/mainGrid';
+import { getYoutubeList } from '@/utils/etc/youtube';
 import { createClient } from '@/utils/supabase/server';
 import { Box, Select, SimpleGrid } from '@chakra-ui/react';
 
@@ -11,9 +12,11 @@ export default async function Page() {
 
   console.log(user); */
 
+  const res: any = await getYoutubeList();
+
   return (
     <>
-      <MainGrid />
+      <MainGrid videos={res.items} />
     </>
   );
 }
