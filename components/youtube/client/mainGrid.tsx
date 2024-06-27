@@ -20,24 +20,6 @@ import {
 } from '@chakra-ui/react';
 import { useEffect, useRef, useState } from 'react';
 
-type Video = {
-  id: {
-    videoId: string;
-  };
-  snippet: {
-    title: string;
-    description: string;
-    thumbnails: {
-      medium: {
-        url: string;
-      };
-      high: {
-        url: string;
-      };
-    };
-  };
-};
-
 interface Props {
   videos: Video[];
 }
@@ -58,8 +40,6 @@ export default function MainGridComponent(props: Props) {
       const {
         data: { user },
       } = await supabase.auth.getUser();
-      console.log('test', user);
-      console.log(props.videos);
     };
 
     fetchUser();
@@ -92,8 +72,15 @@ export default function MainGridComponent(props: Props) {
         ))}
       </Grid>
 
-      {selectedVideo && (
-        <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose} size="xl" isCentered>
+      {selectedVideo && ( //blockScrollOnMount={false} 이거 안하면 모달 열릴때 body깨짐!
+        <Modal
+          blockScrollOnMount={false}
+          closeOnOverlayClick={false}
+          isOpen={isOpen}
+          onClose={onClose}
+          size="xl"
+          isCentered
+        >
           <ModalOverlay />
           <ModalContent>
             <ModalHeader>{selectedVideo.snippet.title}</ModalHeader>

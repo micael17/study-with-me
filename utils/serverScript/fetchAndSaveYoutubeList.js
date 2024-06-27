@@ -1,27 +1,52 @@
-// fetchAndSaveYoutubeList.js
-
-const fetch = require('node-fetch');
-const { saveYoutubeList } = require('../supabase/server');
-
-const API_KEY = process.env.NEXT_PUBLIC_YOUTUBE_KEY;
-const query = 'study with me';
+const key = process.env.NEXT_PUBLIC_YOUTUBE_KEY;
+const url = 'https://youtube.googleapis.com/youtube/v3/search';
+const query = 'study with me'; //study%2520with%2520me
 const maxResults = 25;
+const videoCategoryId = '27'; // 교육 카테고리
 const order = 'relevance';
-const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=${maxResults}&q=${encodeURIComponent(
-  query,
-)}&order=${order}&key=${API_KEY}`;
+const param = `?part=snippet&maxResults=${maxResults}&q=${query}&order=${order}&key=${key}`;
+//
+const { createClient } = require('@supabase/supabase-js');
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+async function clearYoutubeList() {
+  try {
+    const { error } = await supabase.from('youtube_videos').delete().neq('id', 0); // 'id'가 비어 있지 않은 모든 행을 삭제합니다
+    if (error) {
+      throw error;
+    }
+    console.log('All YouTube list cleared successfully.');
+  } catch (error) {
+    console.error('Error clearing YouTube list:', error.message);
+    throw error;
+  }
+}
+
+async function saveYoutubeList(videoList) {
+  try {
+    await clearYoutubeList();
+    const { error } = await supabase.from('youtube_videos').insert([{ data: videoList }]);
+
+    if (error) {
+      console.error('Error inserting data:', error);
+    } else {
+      console.log('YouTube list saved successfully.');
+    }
+  } catch (error) {
+    console.error('Error fetching YouTube list:', error);
+  }
+}
 
 async function fetchAndSaveYoutubeList() {
   try {
-    const response = await fetch(url);
+    const response = await fetch(url + param);
     const data = await response.json();
 
     const videoList = data.items.map((item) => ({
-      id: item.id.videoId,
-      title: item.snippet.title,
-      description: item.snippet.description,
-      thumbnailUrl: item.snippet.thumbnails.default.url,
-      // 필요한 다른 속성들을 추가할 수 있습니다.
+      id: item.id,
+      snippet: item.snippet,
     }));
 
     await saveYoutubeList(videoList);

@@ -15,11 +15,10 @@ app.prepare().then(() => {
     handle(req, res, parsedUrl);
   }).listen(3000, (err) => {
     if (err) throw err;
+    console.log('> Ready on http://localhost:3000');
 
-    // Cron job to run fetchAndSaveYoutubeList script every day at midnight
-    cron.schedule('0 0 * * *', () => {
-      console.log('Running cron job to fetch YouTube list');
-      exec('node scripts/fetchAndSaveYoutubeList.js', (err, stdout, stderr) => {
+    const fetchAndSaveYoutubeList = () => {
+      exec('node utils/serverScript/fetchAndSaveYoutubeList.js', (err, stdout, stderr) => {
         if (err) {
           console.error(`Error executing script: ${err}`);
           return;
@@ -29,6 +28,14 @@ app.prepare().then(() => {
           console.error(`Script error output: ${stderr}`);
         }
       });
+    };
+
+    fetchAndSaveYoutubeList();
+
+    // Cron job to run fetchAndSaveYoutubeList script every day at midnight
+    cron.schedule('0 0 * * *', () => {
+      console.log('Running cron job to fetch YouTube list');
+      fetchAndSaveYoutubeList();
     });
   });
 });

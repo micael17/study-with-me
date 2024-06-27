@@ -29,7 +29,8 @@
     "types/*.ts",
     ".next/types/**/*.ts",
     "app/fonts.js",
-    "components/font.js"
+    "components/font.js",
+    "utils/supabase/server.js"
   ],
   "exclude": ["node_modules"]
 }

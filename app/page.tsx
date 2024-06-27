@@ -11,12 +11,7 @@ export default async function Page() {
   } = await supabase.auth.getUser();
 
   console.log(user); */
-
   const res: any = await getYoutubeList();
 
-  return (
-    <>
-      <MainGrid videos={res.items} />
-    </>
-  );
+  return <>{res && <MainGrid videos={res} />}</>;
 }
