@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "node server.js",
     "build": "next build",
-    "start": "NODE_ENV=production node server.js",
+    "start": "cross-env NODE_ENV=production node server.js",
     "lint": "next lint"
   },
   "dependencies": {
@@ -17,6 +17,7 @@
     "@supabase/auth-ui-shared": "^0.1.8",
     "@supabase/ssr": "^0.3.0",
     "@supabase/supabase-js": "^2.43.1",
+    "cross-env": "^7.0.3",
     "file-loader": "^6.2.0",
     "framer-motion": "^11.1.7",
     "next": "14.2.3",
