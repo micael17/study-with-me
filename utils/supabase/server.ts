@@ -1,5 +1,6 @@
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
+import { getYoutubeList } from '../etc/youtube';
 
 export function createClient() {
   const cookieStore = cookies();
@@ -31,4 +32,20 @@ export function createClient() {
       },
     },
   });
+}
+
+export async function saveYoutubeList() {
+  try {
+    const data = await getYoutubeList();
+    const supabase = createClient();
+    const { error } = await supabase.from('youtube_videos').insert([{ data }]);
+
+    if (error) {
+      console.error('Error inserting data:', error);
+    } else {
+      console.log('YouTube list saved successfully.');
+    }
+  } catch (error) {
+    console.error('Error fetching YouTube list:', error);
+  }
 }

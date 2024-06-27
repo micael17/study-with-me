@@ -18,7 +18,7 @@ import {
   Button,
   useDisclosure,
 } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 type Video = {
   id: {
@@ -44,6 +44,7 @@ interface Props {
 
 export default function MainGridComponent(props: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const finalRef = useRef(null);
   const [selectedVideo, setSelectedVideo] = useState<Video>();
 
   const handleThumbnailClick = (video: Video) => {
@@ -65,7 +66,7 @@ export default function MainGridComponent(props: Props) {
   }, []);
 
   return (
-    <Container maxW="1600px" p={4}>
+    <>
       <Grid templateColumns={{ base: 'repeat(1, 1fr)', md: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)' }} gap={6}>
         {props.videos.map((video) => (
           <Box
@@ -92,7 +93,7 @@ export default function MainGridComponent(props: Props) {
       </Grid>
 
       {selectedVideo && (
-        <Modal isOpen={isOpen} onClose={onClose} size="xl" isCentered>
+        <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose} size="xl" isCentered>
           <ModalOverlay />
           <ModalContent>
             <ModalHeader>{selectedVideo.snippet.title}</ModalHeader>
@@ -105,6 +106,7 @@ export default function MainGridComponent(props: Props) {
                   allowFullScreen
                 />
               </AspectRatio>
+              <Text>{selectedVideo.snippet.description}</Text>
             </ModalBody>
             <ModalFooter>
               <Button colorScheme="blue" mr={3} onClick={onClose}>
@@ -114,6 +116,6 @@ export default function MainGridComponent(props: Props) {
           </ModalContent>
         </Modal>
       )}
-    </Container>
+    </>
   );
 }
