@@ -1,11 +1,18 @@
 const key = process.env.NEXT_PUBLIC_YOUTUBE_KEY;
 const url = 'https://youtube.googleapis.com/youtube/v3/search';
-const query = 'study with me'; //study%2520with%2520me
-const maxResults = 25;
-const videoCategoryId = '27'; // 교육 카테고리
+const query = 'study with me|스터디'; //study%2520with%2520me
+const maxResults = 48;
 const order = 'relevance';
-const param = `?part=snippet&maxResults=${maxResults}&q=${query}&order=${order}&key=${key}`;
-//
+const type = 'video';
+const videoEmbeddable = 'true';
+const regionCode = 'KR';
+const relevanceLanguage = 'ko';
+const safeSearch = 'strict';
+const param =
+  `?part=snippet&maxResults=${maxResults}&q=${query}&order=${order}` +
+  `&key=${key}&type=${type}&videoEmbeddable=${videoEmbeddable}` +
+  `&regionCode=${regionCode}&relevanceLanguage${relevanceLanguage}&safeSearch=${safeSearch}`;
+
 const { createClient } = require('@supabase/supabase-js');
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;

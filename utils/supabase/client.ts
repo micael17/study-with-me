@@ -137,6 +137,7 @@ export const getReplyList = async (writing_id: number): Promise<Reply[]> => {
   return data as Reply[];
 };
 
+//RPC는 supabase에 저장된 프로시저를 말한다.
 export const getReplyListRPC = async (writing_id: number): Promise<Reply[]> => {
   const supabase = createClient();
   const { data, error } = await supabase.rpc('get_comment_hierarchy', { p_writing_id: writing_id }).returns<Reply[]>();

@@ -12,6 +12,12 @@ interface Video {
       high: {
         url: string;
       };
+      standard: {
+        url: string;
+      };
+      maxres: {
+        url: string;
+      };
     };
   };
 }

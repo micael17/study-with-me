@@ -113,7 +113,6 @@ export default function Timer() {
         <Button onClick={toggleTimer}>{isActive ? '일시정지' : '시작'}</Button>
         <Button onClick={resetTimer}>초기화</Button>
       </div>
-      {isFinished && <p>타이머가 종료되었습니다!</p>}
     </div>
   );
 }

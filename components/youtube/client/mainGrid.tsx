@@ -58,7 +58,7 @@ export default function MainGridComponent(props: Props) {
             cursor="pointer"
           >
             <AspectRatio ratio={16 / 9}>
-              <Image src={video.snippet.thumbnails.medium.url} alt={video.snippet.title} />
+              <Image src={video.snippet.thumbnails.high.url} alt={video.snippet.title} />
             </AspectRatio>
             <Box p="6">
               <Text fontWeight="bold" as="h4" lineHeight="tight" isTruncated>

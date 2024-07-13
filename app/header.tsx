@@ -1,8 +1,13 @@
+'use client';
+
 import { Flex, Heading, Link, Button, Box } from '@chakra-ui/react';
 import React from 'react';
 import NextLink from 'next/link';
+import useSessionStore from '@/utils/etc/useSessionStore';
 
 export default function Header() {
+  const { isLogined } = useSessionStore();
+
   return (
     <header>
       {/* 첫 번째 줄: 얇은 줄 및 로그인/회원가입 링크 */}
@@ -13,6 +18,7 @@ export default function Header() {
         <Link color="main.3" mx={3} as={NextLink} href="/join">
           Join
         </Link>
+        {isLogined && <Box>안녕!</Box>}
       </Flex>
 
       {/* 두 번째 줄: 메인 링크 및 기타 링크들 */}

@@ -1,6 +1,5 @@
-import AuthLogin from '@/components/login/client/authLogin';
-import Login from '@/components/login/client/login';
+import LoginCp from '@/components/login/client/newLogin';
 
 export default function LoginPage() {
-  return <AuthLogin />;
+  return <LoginCp />;
 }

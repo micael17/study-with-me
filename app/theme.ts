@@ -4,7 +4,11 @@ import { extendTheme, textDecoration } from '@chakra-ui/react';
 export const theme = extendTheme({
   styles: {
     global: (props: any) => ({
+      '.hydrated body': {
+        visibility: 'visible',
+      },
       body: {
+        visibility: 'hidden',
         fontSize: 'md',
         color: props.colorMode === 'dark' ? 'white' : 'gray.600',
         maxWidth: '1600px',

@@ -71,12 +71,6 @@ export default function BoardTable(props: Props) {
           </Tbody>
         </Table>
       </TableContainer>
-
-      <div className={style.buttons}>
-        <Link as={NextLink} href="/board/editor">
-          <Button className={style.button}>글쓰기</Button>
-        </Link>
-      </div>
     </>
   );
 }

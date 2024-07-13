@@ -1,5 +1,6 @@
 'use client';
 
+import useSessionStore from '@/utils/etc/useSessionStore';
 import { createClient } from '@/utils/supabase/client';
 import { Auth } from '@supabase/auth-ui-react';
 import { ThemeSupa } from '@supabase/auth-ui-shared';
@@ -10,6 +11,7 @@ const supabase = createClient();
 
 export default function App() {
   const [isReady, setIsReady] = useState<boolean>(false);
+  const { isLogined, setIsLogined, setToken } = useSessionStore((state) => state);
   const router = useRouter();
 
   useEffect(() => {
@@ -20,9 +22,15 @@ export default function App() {
         // handle initial session
       } else if (event === 'SIGNED_IN') {
         // handle sign in event
-        router.push('/');
+
+        if (session) {
+          setToken(session.access_token);
+          setIsLogined(true);
+        }
       } else if (event === 'SIGNED_OUT') {
         // handle sign out event
+        console.log(session);
+        setIsLogined(false);
         router.push('/');
       } else if (event === 'PASSWORD_RECOVERY') {
         // handle password recovery event
@@ -52,7 +60,7 @@ export default function App() {
           },
         },
       }}
-      providers={['google', 'kakao']}
+      providers={[]}
     />
   ) : (
     <></>
