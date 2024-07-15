@@ -15,6 +15,7 @@ export default async function EditorPage(props: Props) {
     content: '',
     title: '',
   };
+
   if (props.params.writing_id) {
     data = await getWritingContent(props.params.writing_id);
   }

@@ -1,20 +1,30 @@
 'use client';
 
 import { Flex, Heading, Link, Button, Box } from '@chakra-ui/react';
-import React from 'react';
+import React, { useEffect } from 'react';
 import NextLink from 'next/link';
 import useSessionStore from '@/utils/etc/useSessionStore';
 
 export default function Header() {
-  const { isLogined } = useSessionStore();
+  const { isLogined, checkSession, logout } = useSessionStore();
+
+  useEffect(() => {
+    checkSession();
+  }, []);
 
   return (
     <header>
       {/* 첫 번째 줄: 얇은 줄 및 로그인/회원가입 링크 */}
       <Flex justify="flex-start" alignItems="center" py={1} borderBottom="1px" borderColor="gray.200">
-        <Link color="main.3" mx={3} as={NextLink} href="/login">
-          Login
-        </Link>
+        {isLogined ? (
+          <Link color="main.3" mx={3} onClick={logout} as={NextLink} href="/">
+            Logout
+          </Link>
+        ) : (
+          <Link color="main.3" mx={3} as={NextLink} href="/login">
+            Login
+          </Link>
+        )}
         <Link color="main.3" mx={3} as={NextLink} href="/join">
           Join
         </Link>

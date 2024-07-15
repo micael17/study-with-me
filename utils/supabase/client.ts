@@ -7,8 +7,9 @@ export function createClient() {
   return createBrowserClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!);
 }
 
-export const getWritingList = async (): Promise<Writing[]> => {
-  const supabase = createClient();
+export const getWritingList = async (page: number, pageSize: number): Promise<Writing[]> => {
+  console.log('WRITE!!');
+  const offset = (page - 1) * pageSize;
   const { data, error } = await supabase
     .from('writing')
     .select(
@@ -17,13 +18,33 @@ export const getWritingList = async (): Promise<Writing[]> => {
     member(id)
   `,
     )
+    .eq('is_del', false)
+    .range(offset, offset + pageSize - 1)
+    .order('writing_id', { ascending: false })
     .returns<Writing[]>();
 
   return data as Writing[];
 };
 
+export const getWritingListCount = async (): Promise<number> => {
+  // Supabase에서 writings 테이블의 전체 데이터 개수 가져오기
+  const { count, error } = await supabase
+    .from('writing')
+    .select('*', { count: 'exact' }) // count() 메서드를 사용하여 전체 데이터 개수를 정확하게 계산
+    .eq('is_del', false);
+
+  if (error) {
+    console.log(error);
+  }
+
+  if (count) {
+    return count;
+  } else {
+    return 0; // 데이터가 없는 경우 0 반환
+  }
+};
+
 export const getNoticeList = async (): Promise<Writing[]> => {
-  const supabase = createClient();
   const { data, error } = await supabase
     .from('writing')
     .select(
@@ -41,7 +62,6 @@ export const getNoticeList = async (): Promise<Writing[]> => {
 };
 
 export const getWritingContent = async (writing_id: number): Promise<Writing> => {
-  const supabase = createClient();
   const { data, error } = await supabase
     .from('writing')
     .select(
@@ -57,7 +77,6 @@ export const getWritingContent = async (writing_id: number): Promise<Writing> =>
 };
 
 export const uploadFileToSupabase = async (files: File[]) => {
-  const supabase = createClient();
   const urls: string[] = [];
 
   for (let i = 0; i < files.length; i++) {
@@ -80,7 +99,6 @@ export const uploadFileToSupabase = async (files: File[]) => {
 };
 
 export const submitBoardWriting = async (writingModel: Writing) => {
-  const supabase = createClient();
   let result: boolean = false;
 
   let { error } = await supabase.from('writing').insert({
@@ -100,7 +118,6 @@ export const submitBoardWriting = async (writingModel: Writing) => {
 };
 
 export const submitReply = async (replyModel: ReplyForPost) => {
-  const supabase = createClient();
   let result: boolean = false;
 
   let { error } = await supabase.from('reply').insert({
@@ -122,7 +139,6 @@ export const submitReply = async (replyModel: ReplyForPost) => {
 };
 
 export const getReplyList = async (writing_id: number): Promise<Reply[]> => {
-  const supabase = createClient();
   const { data, error } = await supabase
     .from('reply')
     .select(
@@ -139,7 +155,6 @@ export const getReplyList = async (writing_id: number): Promise<Reply[]> => {
 
 //RPC는 supabase에 저장된 프로시저를 말한다.
 export const getReplyListRPC = async (writing_id: number): Promise<Reply[]> => {
-  const supabase = createClient();
   const { data, error } = await supabase.rpc('get_comment_hierarchy', { p_writing_id: writing_id }).returns<Reply[]>();
   if (error) {
     console.error('Error fetching comments:', error);
@@ -149,7 +164,6 @@ export const getReplyListRPC = async (writing_id: number): Promise<Reply[]> => {
 };
 
 export const signUp = async (email: string, password: string, id: string) => {
-  const supabase = createClient();
   const { error } = await supabase.auth.signUp({
     email,
     password,

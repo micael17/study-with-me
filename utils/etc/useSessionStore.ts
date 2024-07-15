@@ -9,7 +9,7 @@ type SessionStore = {
   setToken: (value: string) => void;
   login: (email: string, password: string) => void;
   logout: () => void;
-  checkAuth: () => void;
+  checkSession: () => Promise<boolean>;
 };
 
 const useSessionStore = create<SessionStore>()(
@@ -33,13 +33,21 @@ const useSessionStore = create<SessionStore>()(
           token: '',
         });
       },
-      checkAuth: async () => {
+      checkSession: async () => {
         const session = await getSession();
         if (session) {
+          console.log(session);
           set({
             isLogined: true,
             token: session.access_token,
           });
+          return true;
+        } else {
+          set({
+            isLogined: false,
+            token: '',
+          });
+          return false;
         }
       },
     }),

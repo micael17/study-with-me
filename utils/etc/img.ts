@@ -2,7 +2,7 @@ function base64toFiles(imgEl: HTMLCollectionOf<HTMLImageElement>, id: string) {
   const files: File[] = [];
 
   for (let i = 0; i < imgEl.length; i++) {
-    const imageBase64 = imgEl[i].src.match(/data:image\/(png|jpg|jpeg);base64,/);
+    const imageBase64 = imgEl[i].src.match(/data:image\/(png|jpg|jpeg|gif);base64,/);
     if (imageBase64) {
       const arr = imgEl[i].src.split(',');
       const matchedData = arr[0].match(/:(.*?);/);

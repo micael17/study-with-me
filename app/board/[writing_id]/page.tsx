@@ -15,8 +15,6 @@ interface Props {
 
 export default async function ViewPage(props: Props) {
   const data: Writing = await getWritingContent(props.params.writing_id);
-  console.log(data);
-  //const replyList: Reply[] = await getReplyList(props.params.writing_id);
   const replyList: Reply[] = await getReplyListRPC(props.params.writing_id);
 
   return (

@@ -24,7 +24,6 @@ export default function Editor(props: Props) {
   const [category, setCategory] = useState<string>(props.writing.category || '');
   const [title, setTitle] = useState<string>(props.writing.title || '');
   const [content, setContent] = useState<string>(props.writing.content || '');
-
   const router = useRouter();
 
   const onSubmitBtnClick = async () => {

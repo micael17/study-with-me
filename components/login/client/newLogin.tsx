@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Box, Button, Container, FormControl, FormLabel, Heading, Input, Link, Text, VStack } from '@chakra-ui/react';
 import useSessionStore from '@/utils/etc/useSessionStore';
 
-const LoginPage: React.FC = () => {
+export default function LoginCp() {
   const router = useRouter();
   const { login } = useSessionStore();
   const [email, setEmail] = useState('');
@@ -13,11 +13,14 @@ const LoginPage: React.FC = () => {
   const [error, setError] = useState('');
 
   const handleLogin = async () => {
+    const str = '로그인 실패: 이메일 또는 비밀번호를 확인해주세요.';
+    if (email.trim() === '' || password.trim() === '') setError(str);
+
     try {
       await login(email, password);
       router.push('/'); // 로그인 성공 시 홈 페이지로 리디렉션
     } catch (err) {
-      setError('로그인 실패: 이메일 또는 비밀번호를 확인해주세요.');
+      setError(str);
     }
   };
 
@@ -62,6 +65,4 @@ const LoginPage: React.FC = () => {
       </VStack>
     </Box>
   );
-};
-
-export default LoginPage;
+}

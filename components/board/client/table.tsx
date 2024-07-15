@@ -1,17 +1,43 @@
 'use client';
 
 import { Table, Thead, Tbody, Tfoot, Tr, Th, Td, TableCaption, TableContainer, Button, Link } from '@chakra-ui/react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import style from './table.module.css';
 import NextLink from 'next/link';
+import { getWritingList } from '@/utils/supabase/client';
 
 interface Props {
   title: string;
   data: Writing[];
+  totalPages: number;
 }
+const PAGE_SIZE = 10; // 한 페이지에 보여줄 항목 수
 
 export default function BoardTable(props: Props) {
-  const { data } = props;
+  const { totalPages } = props;
+  const [data, setData] = useState<Writing[]>(props.data);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const pageNumbers = Array.from({ length: totalPages }, (_, index) => index + 1);
+
+  // 페이지네이션에서 표시할 최대 페이지 버튼 수
+  const maxPagesToShow = 5;
+
+  // 현재 페이지 주변의 페이지 번호만 표시
+  const startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
+  const endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
+  const visiblePages = Array.from({ length: endPage + 1 - startPage }, (_, index) => startPage + index);
+
+  // 현재 페이지의 데이터 계산
+  const startIndex = (currentPage - 1) * PAGE_SIZE;
+
+  const currentData = data.slice(startIndex, startIndex + PAGE_SIZE);
+
+  const onPageChange = async (page: any) => {
+    const newData: Writing[] = await getWritingList(page, PAGE_SIZE);
+    console.log(page, newData);
+    setData(newData);
+    setCurrentPage(currentPage);
+  };
 
   const dateFormat = (dateString: string) => {
     const date = new Date(dateString);
@@ -54,7 +80,7 @@ export default function BoardTable(props: Props) {
             </Tr>
           </Thead>
           <Tbody>
-            {data.map((row, index) => (
+            {currentData.map((row, index) => (
               <Tr className={style.tr} key={index}>
                 <Td textAlign={'center'}>{row.category}</Td>
                 <Td>
@@ -70,6 +96,33 @@ export default function BoardTable(props: Props) {
             ))}
           </Tbody>
         </Table>
+
+        {/* 페이지네이션 UI */}
+        <div style={{ marginTop: '20px', textAlign: 'center' }}>
+          {/* <button onClick={() => onPageChange(currentPage - 1)} disabled={currentPage === 1}>
+            이전
+          </button> */}
+          {startPage > 1 && (
+            <>
+              <button onClick={() => onPageChange(1)}>1</button>
+              {startPage > 2 && <span>...</span>}
+            </>
+          )}
+          {visiblePages.map((page) => (
+            <Button m={1} key={page} onClick={() => onPageChange(page)} disabled={currentPage === page}>
+              {page}
+            </Button>
+          ))}
+          {endPage < totalPages && (
+            <>
+              {endPage < totalPages - 1 && <span>...</span>}
+              <button onClick={() => onPageChange(totalPages)}>{totalPages}</button>
+            </>
+          )}
+          {/* <button onClick={() => onPageChange(currentPage + 1)} disabled={currentPage === totalPages}>
+            다음
+          </button> */}
+        </div>
       </TableContainer>
     </>
   );

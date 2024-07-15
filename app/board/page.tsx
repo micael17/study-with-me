@@ -1,26 +1,27 @@
 import BoardTable from '@/components/board/client/table';
-import { getNoticeList, getWritingList } from '@/utils/supabase/client';
-import style from './boardPage.module.css';
+import { getNoticeList, getWritingList, getWritingListCount } from '@/utils/supabase/client';
 import MiniBoardTable from '@/components/board/client/miniTable';
-import NextLink from 'next/link';
-import { Button, Link } from '@chakra-ui/react';
+import WriteButton from '@/components/board/client/writeButton';
+import { useRouter } from 'next/router';
+import { useQuery } from '@chakra-ui/react';
 
 export default async function BoardPage() {
-  const data: Writing[] = await getWritingList();
+  const page = 1;
+  const pageSize = 10;
   const noticeData: Writing[] = await getNoticeList();
+  const data: Writing[] = await getWritingList(page, pageSize);
+  const totalCount: number = await getWritingListCount();
+  const totalPages = Math.ceil(totalCount / pageSize);
 
   return (
     <>
-      <h1>Board</h1>
       <div>
         <MiniBoardTable data={noticeData} title={'공지'} />
-        <BoardTable data={data} title={'게시판'} />
+        <BoardTable data={data} totalPages={totalPages} title={'게시판'} />
       </div>
 
-      <div className={style.buttons}>
-        <Link as={NextLink} href="/board/editor">
-          <Button className={style.button}>글쓰기</Button>
-        </Link>
+      <div>
+        <WriteButton />
       </div>
     </>
   );
