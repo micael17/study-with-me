@@ -4,40 +4,52 @@ import { Table, Thead, Tbody, Tfoot, Tr, Th, Td, TableCaption, TableContainer, B
 import { useEffect, useState } from 'react';
 import style from './table.module.css';
 import NextLink from 'next/link';
-import { getWritingList } from '@/utils/supabase/client';
+import { getWritingList, getWritingListCount } from '@/utils/supabase/board';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 interface Props {
   title: string;
-  data: Writing[];
-  totalPages: number;
 }
+
+interface PageDataParam {
+  (page: number, pageSize: number): void;
+}
+
 const PAGE_SIZE = 10; // 한 페이지에 보여줄 항목 수
+const maxPagesToShow = 5; // 페이지네이션에서 표시할 최대 페이지 버튼 수
 
 export default function BoardTable(props: Props) {
-  const { totalPages } = props;
-  const [data, setData] = useState<Writing[]>(props.data);
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const pageNumbers = Array.from({ length: totalPages }, (_, index) => index + 1);
+  const [data, setData] = useState<Writing[]>([]);
+  const [totalCount, setTotalCount] = useState<number>(0);
+  const params = useSearchParams();
+  const router = useRouter();
+  const currentPage = parseInt(params.get('page') || '1', 10);
 
-  // 페이지네이션에서 표시할 최대 페이지 버튼 수
-  const maxPagesToShow = 5;
+  useEffect(() => {
+    const fetchData = async (page: number, pageSize: number) => {
+      const totalCount: number = await getWritingListCount();
+      const data: Writing[] = await getWritingList(page, pageSize);
+      setTotalCount(totalCount);
+      setData(data);
+    };
+
+    console.log('currentPage', currentPage);
+    fetchData(currentPage, PAGE_SIZE);
+  }, [currentPage, params]);
+
+  const onPageChange = (page: number) => {
+    const query = `?page=${page}`;
+    router.push(`/board${query}`);
+  };
 
   // 현재 페이지 주변의 페이지 번호만 표시
+  const totalPages = Math.ceil(totalCount / PAGE_SIZE);
   const startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
   const endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
   const visiblePages = Array.from({ length: endPage + 1 - startPage }, (_, index) => startPage + index);
 
   // 현재 페이지의 데이터 계산
   const startIndex = (currentPage - 1) * PAGE_SIZE;
-
-  const currentData = data.slice(startIndex, startIndex + PAGE_SIZE);
-
-  const onPageChange = async (page: any) => {
-    const newData: Writing[] = await getWritingList(page, PAGE_SIZE);
-    console.log(page, newData);
-    setData(newData);
-    setCurrentPage(currentPage);
-  };
 
   const dateFormat = (dateString: string) => {
     const date = new Date(dateString);
@@ -56,12 +68,6 @@ export default function BoardTable(props: Props) {
     return dateFormat2;
   };
 
-  useEffect(() => {
-    if (data) {
-      console.log(data);
-    }
-  }, [data]);
-
   return (
     <>
       <TableContainer my={5} p={2}>
@@ -69,10 +75,15 @@ export default function BoardTable(props: Props) {
         <Table mt={5} size="sm" variant="simple" className={style.boardTable}>
           <Thead>
             <Tr>
-              <Th w="100px" textAlign={'center'}>
+              <Th w="30px" textAlign={'center'}>
+                번호
+              </Th>
+              <Th w="30px" textAlign={'center'}>
                 분류
               </Th>
-              <Th textAlign={'center'}>제목</Th>
+              <Th w="800px" textAlign={'center'}>
+                제목
+              </Th>
               <Th textAlign={'center'}>글쓴이</Th>
               <Th textAlign={'center'}>날짜</Th>
               <Th textAlign={'center'}>조회</Th>
@@ -80,8 +91,9 @@ export default function BoardTable(props: Props) {
             </Tr>
           </Thead>
           <Tbody>
-            {currentData.map((row, index) => (
+            {data.map((row, index) => (
               <Tr className={style.tr} key={index}>
+                <Td textAlign={'center'}>{row.writing_id}</Td>
                 <Td textAlign={'center'}>{row.category}</Td>
                 <Td>
                   <Link as={NextLink} href={`/board/${row.writing_id}`}>

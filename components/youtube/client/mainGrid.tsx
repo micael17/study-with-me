@@ -1,6 +1,7 @@
 'use client';
 
-import { createClient, uploadFileToSupabase } from '@/utils/supabase/client';
+import { supabase } from '@/utils/supabase/supabaseClient';
+
 import {
   Box,
   Grid,
@@ -36,7 +37,6 @@ export default function MainGridComponent(props: Props) {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const supabase = createClient();
       const {
         data: { user },
       } = await supabase.auth.getUser();

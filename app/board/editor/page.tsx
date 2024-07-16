@@ -1,6 +1,6 @@
 import Editor from '@/components/board/client/editor';
 import BoardTable from '@/components/board/client/table';
-import { getWritingContent, getWritingList } from '@/utils/supabase/client';
+import { getWritingContent, getWritingList } from '@/utils/supabase/board';
 
 interface Props {
   params: {

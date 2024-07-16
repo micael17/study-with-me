@@ -1,6 +1,6 @@
 import ReplyEditor from '@/components/board/client/replyEditor';
 import Viewer from '@/components/board/client/viewer';
-import { getReplyList, getReplyListRPC, getWritingContent } from '@/utils/supabase/client';
+import { getReplyList, getReplyListRPC, getWritingContent } from '@/utils/supabase/board';
 import { Button, Link } from '@chakra-ui/react';
 import { Suspense } from 'react';
 import NextLink from 'next/link';

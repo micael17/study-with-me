@@ -1,6 +1,6 @@
 'use client';
 
-import { createClient } from '@/utils/supabase/client';
+import { createClient } from '@/utils/supabase/board';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import styles from './login.module.css';

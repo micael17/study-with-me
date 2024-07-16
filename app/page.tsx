@@ -1,6 +1,6 @@
 import MainGrid from '@/components/youtube/client/mainGrid';
 import { getYoutubeList } from '@/utils/etc/youtube';
-import { createClient } from '@/utils/supabase/server';
+import { createClient } from '@/utils/supabase/supabaseServerClient';
 import { Box, Select, SimpleGrid } from '@chakra-ui/react';
 
 export default async function Page() {

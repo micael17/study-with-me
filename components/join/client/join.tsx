@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, FormEvent } from 'react';
-import { createClient, signUp } from '@/utils/supabase/client';
+import { createClient, signUp } from '@/utils/supabase/board';
 import { Box, Button, FormControl, FormLabel, Input, Heading, useToast } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
 

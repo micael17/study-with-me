@@ -1,4 +1,4 @@
-import { supabase } from '../supabase/client';
+import { supabase } from '../supabase/supabaseClient';
 
 async function getNewYoutubeList() {
   const key = process.env.NEXT_PUBLIC_YOUTUBE_KEY;

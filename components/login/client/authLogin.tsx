@@ -1,7 +1,7 @@
 'use client';
 
 import useSessionStore from '@/utils/etc/useSessionStore';
-import { createClient } from '@/utils/supabase/client';
+import { createClient } from '@/utils/supabase/board';
 import { Auth } from '@supabase/auth-ui-react';
 import { ThemeSupa } from '@supabase/auth-ui-shared';
 import { useRouter } from 'next/navigation';

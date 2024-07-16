@@ -6,7 +6,7 @@ import dynamic from 'next/dynamic';
 const ReactQuill = dynamic(() => import('react-quill'), {
   ssr: false,
 });
-import { submitBoardWriting, uploadFileToSupabase } from '@/utils/supabase/client';
+import { submitBoardWriting, uploadFileToSupabase } from '@/utils/supabase/board';
 import { base64toFiles } from '@/utils/etc/img';
 import { Button } from '@chakra-ui/react';
 import Link from 'next/link';

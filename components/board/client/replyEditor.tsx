@@ -4,7 +4,7 @@ import { Button, Textarea } from '@chakra-ui/react';
 import style from './reply.module.css';
 import { useState } from 'react';
 import AutoResizeTextarea from './autoResizeTextarea';
-import { submitReply } from '@/utils/supabase/client';
+import { submitReply } from '@/utils/supabase/board';
 import { useRouter } from 'next/navigation';
 
 interface Prop {
