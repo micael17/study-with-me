@@ -6,7 +6,7 @@ import NextLink from 'next/link';
 import useSessionStore from '@/utils/etc/useSessionStore';
 
 export default function Header() {
-  const { isLogined, checkSession, logout } = useSessionStore();
+  const { isLogined, checkSession, logout, userMetaData } = useSessionStore();
 
   useEffect(() => {
     checkSession();
@@ -21,14 +21,16 @@ export default function Header() {
             Logout
           </Link>
         ) : (
-          <Link color="main.3" mx={3} as={NextLink} href="/login">
-            Login
-          </Link>
+          <>
+            <Link color="main.3" mx={3} as={NextLink} href="/login">
+              Login
+            </Link>
+            <Link color="main.3" mx={3} as={NextLink} href="/join">
+              Join
+            </Link>
+          </>
         )}
-        <Link color="main.3" mx={3} as={NextLink} href="/join">
-          Join
-        </Link>
-        {isLogined && <Box>안녕!</Box>}
+        {isLogined && <Box color="main.4">안녕하세요. {userMetaData.id} 님!</Box>}
       </Flex>
 
       {/* 두 번째 줄: 메인 링크 및 기타 링크들 */}

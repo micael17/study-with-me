@@ -1,6 +1,11 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { getSession, loginWithEmail, signOut } from '../supabase/authService';
+import { getSession, getUser, loginWithEmail, signOut } from '../supabase/authService';
+
+type UserMetaData = {
+  email: string;
+  id: string;
+};
 
 type SessionStore = {
   isLogined: boolean;
@@ -10,6 +15,7 @@ type SessionStore = {
   login: (email: string, password: string) => void;
   logout: () => void;
   checkSession: () => Promise<boolean>;
+  userMetaData: UserMetaData;
 };
 
 const useSessionStore = create<SessionStore>()(
@@ -17,13 +23,15 @@ const useSessionStore = create<SessionStore>()(
     (set) => ({
       isLogined: false,
       token: '',
+      userMetaData: {} as UserMetaData,
       setIsLogined: (value: boolean) => set({ isLogined: value }),
       setToken: (value: string) => set({ token: value }),
       login: async (email: string, password: string) => {
         const { user, session } = await loginWithEmail(email, password);
         set({
           isLogined: true,
-          token: session?.access_token || '',
+          token: session.access_token || '',
+          userMetaData: session.user.user_metadata as UserMetaData,
         });
       },
       logout: async () => {
@@ -31,21 +39,21 @@ const useSessionStore = create<SessionStore>()(
         set({
           isLogined: false,
           token: '',
+          userMetaData: {} as UserMetaData,
         });
       },
       checkSession: async () => {
         const session = await getSession();
         if (session) {
-          console.log(session);
           set({
             isLogined: true,
-            token: session.access_token,
+            userMetaData: session.user.user_metadata as UserMetaData,
           });
           return true;
         } else {
           set({
             isLogined: false,
-            token: '',
+            userMetaData: {} as UserMetaData,
           });
           return false;
         }

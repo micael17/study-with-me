@@ -1,6 +1,19 @@
 'use client';
 
-import { Table, Thead, Tbody, Tfoot, Tr, Th, Td, TableCaption, TableContainer, Button, Link } from '@chakra-ui/react';
+import {
+  Table,
+  Thead,
+  Tbody,
+  Tfoot,
+  Tr,
+  Th,
+  Td,
+  TableCaption,
+  TableContainer,
+  Button,
+  Link,
+  theme,
+} from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import style from './table.module.css';
 import NextLink from 'next/link';
@@ -25,15 +38,15 @@ export default function BoardTable(props: Props) {
   const router = useRouter();
   const currentPage = parseInt(params.get('page') || '1', 10);
 
-  useEffect(() => {
-    const fetchData = async (page: number, pageSize: number) => {
-      const totalCount: number = await getWritingListCount();
-      const data: Writing[] = await getWritingList(page, pageSize);
-      setTotalCount(totalCount);
-      setData(data);
-    };
+  const fetchData = async (page: number, pageSize: number) => {
+    const totalCount: number = await getWritingListCount();
+    const data: Writing[] = await getWritingList(page, pageSize);
+    console.log(data[0]);
+    setTotalCount(totalCount);
+    setData(data);
+  };
 
-    console.log('currentPage', currentPage);
+  useEffect(() => {
     fetchData(currentPage, PAGE_SIZE);
   }, [currentPage, params]);
 
@@ -120,11 +133,17 @@ export default function BoardTable(props: Props) {
               {startPage > 2 && <span>...</span>}
             </>
           )}
-          {visiblePages.map((page) => (
-            <Button m={1} key={page} onClick={() => onPageChange(page)} disabled={currentPage === page}>
-              {page}
-            </Button>
-          ))}
+          {visiblePages.map((page) =>
+            currentPage === page ? (
+              <Button variant="link" key={page} color="black" disabled>
+                {page}
+              </Button>
+            ) : (
+              <Button variant="link" key={page} onClick={() => onPageChange(page)}>
+                {page}
+              </Button>
+            ),
+          )}
           {endPage < totalPages && (
             <>
               {endPage < totalPages - 1 && <span>...</span>}

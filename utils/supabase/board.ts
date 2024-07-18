@@ -6,11 +6,12 @@ export const getWritingList = async (page: number, pageSize: number): Promise<Wr
     .from('writing')
     .select(
       `
-    *,
-    member(id)
-  `,
+      *,
+      member(id)
+    `,
     )
     .eq('is_del', false)
+    .neq('category', 'notice')
     .range(offset, offset + pageSize - 1)
     .order('writing_id', { ascending: false })
     .returns<Writing[]>();

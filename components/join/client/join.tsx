@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, FormEvent } from 'react';
-import { createClient, signUp } from '@/utils/supabase/board';
+import { signUp } from '@/utils/supabase/board';
 import { Box, Button, FormControl, FormLabel, Input, Heading, useToast } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
 
@@ -13,15 +13,31 @@ const SignUp: React.FC = () => {
   const toast = useToast();
   const router = useRouter();
 
-  const handleSignUp = async (e: FormEvent) => {
+  const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
+    if (password.length < 8) {
+      toast({
+        title: '비밀번호 오류',
+        description: '비밀번호는 8자리 이상이어야 합니다.',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+    } else {
+      await handleSignUp();
+    }
+
+    setLoading(false);
+  };
+
+  const handleSignUp = async () => {
     const result = await signUp(email, password, id);
     if (result === 422) {
       toast({
         title: '회원가입 실패',
-        description: '이미 가입된 이메일입니다.',
+        description: '서버 측 문제로 가입을 실패했습니다. 잠시 후 다시 시도해주세요.',
         status: 'error',
         duration: 5000,
         isClosable: true,
@@ -47,7 +63,6 @@ const SignUp: React.FC = () => {
         isClosable: true,
       });
     }
-    setLoading(false);
   };
 
   return (
@@ -55,7 +70,7 @@ const SignUp: React.FC = () => {
       <Heading as="h2" size="lg" mb={6} textAlign="center">
         회원가입
       </Heading>
-      <form onSubmit={handleSignUp}>
+      <form onSubmit={onSubmit}>
         <FormControl id="email" isRequired mb={4}>
           <FormLabel>이메일</FormLabel>
           <Input type="email" placeholder="이메일" value={email} onChange={(e) => setEmail(e.target.value)} />
