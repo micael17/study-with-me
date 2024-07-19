@@ -1,7 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { Flex, Input } from '@chakra-ui/react';
+import { Box, Flex, Input } from '@chakra-ui/react';
 // Dynamically import ReactQuill with no SSR
 const ReactQuill = dynamic(() => import('react-quill'), {
   ssr: false,
@@ -30,7 +30,7 @@ export default function Viewer(props: Props) {
 
   return (
     <>
-      <div className={style.textViewer}>
+      <Box m={3} className={style.textViewer}>
         <div>{props.writing.category}</div>
         <div className={style.title}>{props.writing.title}</div>
         <Flex className={style.subTitle} align="left" alignItems="flex-start">
@@ -47,7 +47,7 @@ export default function Viewer(props: Props) {
         <hr />
         <div className={style.content} dangerouslySetInnerHTML={createMarkup(props.writing.content)}></div>
         {/*ReactQuill readOnly modules={modules} theme="snow" value={props.writing.content} /> */}
-      </div>
+      </Box>
       <hr />
     </>
   );

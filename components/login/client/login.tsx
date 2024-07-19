@@ -1,54 +1,68 @@
 'use client';
 
-import { createClient } from '@/utils/supabase/board';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import styles from './login.module.css';
-import { Button, Input } from '@chakra-ui/react';
+import { useRouter } from 'next/navigation';
+import { Box, Button, Container, FormControl, FormLabel, Heading, Input, Link, Text, VStack } from '@chakra-ui/react';
+import useSessionStore from '@/utils/etc/useSessionStore';
 
-export default function Login() {
-  const [loginId, setLoginId] = useState<string>('');
-  const [loginPwd, setLoginPwd] = useState<string>('');
+export default function LoginCp() {
   const router = useRouter();
+  const { login } = useSessionStore();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const supabase = createClient();
-    let { data: member, error } = await supabase
-      .from('member')
-      .select('member_id')
-      .eq('id', loginId)
-      .eq('password', loginPwd);
-    if (member && member.length > 0) {
-      router.push('/');
+  const handleLogin = async () => {
+    const str = '로그인 실패: 이메일 또는 비밀번호를 확인해주세요.';
+    if (email.trim() === '' || password.trim() === '') setError(str);
+
+    try {
+      await login(email, password);
+      router.push('/'); // 로그인 성공 시 홈 페이지로 리디렉션
+    } catch (err) {
+      setError(str);
     }
-    return false;
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.child}>
-        <h1>로그인</h1>
-        <hr />
-        <form className={styles.form} action="/" onSubmit={handleSubmit}>
+    <Box maxW="md" mx="auto" mt={8} p={4} borderWidth={1} borderRadius="md">
+      <Heading as="h2" size="lg" mb={6} textAlign="center">
+        로그인
+      </Heading>
+      <VStack spacing={4} align="stretch">
+        <FormControl id="email">
+          <FormLabel>이메일</FormLabel>
           <Input
-            type="text"
-            placeholder="ID"
-            value={loginId}
-            onChange={(event) => setLoginId(event.target.value)}
-            required
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="이메일을 입력하세요"
           />
+        </FormControl>
+        <FormControl id="password">
+          <FormLabel>비밀번호</FormLabel>
           <Input
             type="password"
-            placeholder="Password"
-            value={loginPwd}
-            onChange={(event) => setLoginPwd(event.target.value)}
-            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="비밀번호를 입력하세요"
           />
-          <hr />
-          <Button type="submit">Login</Button>
-        </form>
-      </div>
-    </div>
+        </FormControl>
+        {error && <Text color="red.500">{error}</Text>}
+        <Button colorScheme="teal" onClick={handleLogin}>
+          로그인
+        </Button>
+        <Box textAlign="center">
+          <Link color="teal.500" onClick={() => router.push('/reset-password')}>
+            비밀번호 찾기
+          </Link>
+        </Box>
+        <Box textAlign="center">
+          <Link color="teal.500" onClick={() => router.push('/signup')}>
+            회원 가입
+          </Link>
+        </Box>
+      </VStack>
+    </Box>
   );
 }

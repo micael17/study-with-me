@@ -24,11 +24,9 @@ export default async function ViewPage(props: Props) {
         <ReplyEditor isReReply={false} writing_id={props.params.writing_id} member_id={1} />
         <ReplyList writing_id={props.params.writing_id} data={replyList} />
       </Suspense>
-      <div className="buttons">
-        <Link as={NextLink} href="/board">
-          <Button>게시판으로 가기</Button>
-        </Link>
-      </div>
+      <Link m={3} as={NextLink} href="/board">
+        <Button>게시판으로 가기</Button>
+      </Link>
     </>
   );
 }

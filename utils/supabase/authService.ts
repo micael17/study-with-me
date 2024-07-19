@@ -35,3 +35,10 @@ export const getUser = async () => {
 
   return data.user;
 };
+
+export const getMemberInfo = async (id: string) => {
+  const { data, error } = await supabase.from('member').select(`*`).eq('id', id);
+  if (error) throw error;
+
+  return data;
+};

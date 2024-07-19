@@ -5,6 +5,7 @@ import { getSession, getUser, loginWithEmail, signOut } from '../supabase/authSe
 type UserMetaData = {
   email: string;
   id: string;
+  member_id: string; //key
 };
 
 type SessionStore = {
@@ -28,6 +29,7 @@ const useSessionStore = create<SessionStore>()(
       setToken: (value: string) => set({ token: value }),
       login: async (email: string, password: string) => {
         const { user, session } = await loginWithEmail(email, password);
+        console.log('user: ', user);
         set({
           isLogined: true,
           token: session.access_token || '',

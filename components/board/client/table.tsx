@@ -29,7 +29,7 @@ interface PageDataParam {
 }
 
 const PAGE_SIZE = 10; // 한 페이지에 보여줄 항목 수
-const maxPagesToShow = 5; // 페이지네이션에서 표시할 최대 페이지 버튼 수
+const maxPagesToShow = 6; // 페이지네이션에서 표시할 최대 페이지 버튼 수
 
 export default function BoardTable(props: Props) {
   const [data, setData] = useState<Writing[]>([]);
@@ -41,7 +41,6 @@ export default function BoardTable(props: Props) {
   const fetchData = async (page: number, pageSize: number) => {
     const totalCount: number = await getWritingListCount();
     const data: Writing[] = await getWritingList(page, pageSize);
-    console.log(data[0]);
     setTotalCount(totalCount);
     setData(data);
   };
@@ -56,7 +55,7 @@ export default function BoardTable(props: Props) {
   };
 
   // 현재 페이지 주변의 페이지 번호만 표시
-  const totalPages = Math.ceil(totalCount / PAGE_SIZE);
+  const totalPages = Math.ceil(totalCount / PAGE_SIZE) - 1;
   const startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
   const endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
   const visiblePages = Array.from({ length: endPage + 1 - startPage }, (_, index) => startPage + index);
@@ -124,18 +123,26 @@ export default function BoardTable(props: Props) {
 
         {/* 페이지네이션 UI */}
         <div style={{ marginTop: '20px', textAlign: 'center' }}>
-          {/* <button onClick={() => onPageChange(currentPage - 1)} disabled={currentPage === 1}>
-            이전
-          </button> */}
+          {
+            <Button
+              variant="link"
+              onClick={() => onPageChange(currentPage - maxPagesToShow > 1 ? currentPage - maxPagesToShow : 1)}
+              isDisabled={currentPage === 1}
+            >
+              이전
+            </Button>
+          }
           {startPage > 1 && (
             <>
-              <button onClick={() => onPageChange(1)}>1</button>
+              <Button variant="link" onClick={() => onPageChange(1)}>
+                1
+              </Button>
               {startPage > 2 && <span>...</span>}
             </>
           )}
           {visiblePages.map((page) =>
             currentPage === page ? (
-              <Button variant="link" key={page} color="black" disabled>
+              <Button variant="link" key={page} color="black">
                 {page}
               </Button>
             ) : (
@@ -146,13 +153,25 @@ export default function BoardTable(props: Props) {
           )}
           {endPage < totalPages && (
             <>
-              {endPage < totalPages - 1 && <span>...</span>}
-              <button onClick={() => onPageChange(totalPages)}>{totalPages}</button>
+              {<span>...</span>}
+              {/* {                
+                <Button variant="link" onClick={() => onPageChange(totalPages)}>
+                  {totalPages}
+                </Button>            
+              } */}
             </>
           )}
-          {/* <button onClick={() => onPageChange(currentPage + 1)} disabled={currentPage === totalPages}>
-            다음
-          </button> */}
+          {
+            <Button
+              variant="link"
+              onClick={() =>
+                onPageChange(currentPage + maxPagesToShow < totalPages ? currentPage + maxPagesToShow : totalPages)
+              }
+              isDisabled={currentPage === totalPages}
+            >
+              다음
+            </Button>
+          }
         </div>
       </TableContainer>
     </>

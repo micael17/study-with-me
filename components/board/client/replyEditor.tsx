@@ -1,20 +1,21 @@
 'use client';
 
-import { Button, Textarea } from '@chakra-ui/react';
+import { Box, Button, Textarea } from '@chakra-ui/react';
 import style from './reply.module.css';
 import { useState } from 'react';
 import AutoResizeTextarea from './autoResizeTextarea';
 import { submitReply } from '@/utils/supabase/board';
 import { useRouter } from 'next/navigation';
+import useSessionStore from '@/utils/etc/useSessionStore';
 
 interface Prop {
   writing_id: number;
-  member_id?: number;
   origin_reply_id?: number;
   isReReply: boolean;
 }
 
 export default function ReplyEditor(props: Prop) {
+  const { isLogined, userMetaData } = useSessionStore();
   const [content, setContent] = useState<string>('');
   const router = useRouter();
 
@@ -32,7 +33,7 @@ export default function ReplyEditor(props: Prop) {
     const reply: ReplyForPost = {
       writing_id: props.writing_id,
       content: cleanedContent,
-      member_id: props.member_id || 1,
+      member_id: userMetaData.id,
       origin_reply_id: props.origin_reply_id || null,
       is_del: false,
       is_nested: props.isReReply,
@@ -50,10 +51,10 @@ export default function ReplyEditor(props: Prop) {
 
   return (
     <>
-      <div className={style.replyEditor}>
+      <Box m={3} className={style.replyEditor}>
         <AutoResizeTextarea value={content} onChange={setContent}></AutoResizeTextarea>
         <Button onClick={onSubmitReply}>댓글 쓰기</Button>
-      </div>
+      </Box>
     </>
   );
 }

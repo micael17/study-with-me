@@ -48,7 +48,9 @@ export const getNoticeList = async (): Promise<Writing[]> => {
     )
     .eq('category', 'notice')
     .eq('member_id', 1)
+    .range(0, 4)
     .eq('is_del', false)
+    .order('writing_id', { ascending: false })
     .returns<Writing[]>();
 
   return data as Writing[];

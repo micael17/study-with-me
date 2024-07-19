@@ -35,7 +35,7 @@ export default function MainGridComponent(props: Props) {
     onOpen();
   };
 
-  useEffect(() => {
+  /* useEffect(() => {
     const fetchUser = async () => {
       const {
         data: { user },
@@ -43,7 +43,7 @@ export default function MainGridComponent(props: Props) {
     };
 
     fetchUser();
-  }, []);
+  }, []); */
 
   return (
     <>

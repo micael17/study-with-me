@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@chakra-ui/react';
+import { Box, Button } from '@chakra-ui/react';
 import style from './reply.module.css';
 import { formatTimeAgo } from '@/utils/etc/date';
 import { useEffect, useState } from 'react';
@@ -34,7 +34,7 @@ export default function ReplyListComponent(props: Props) {
 
   return (
     <>
-      <div className={style.reply_container}>
+      <Box m={3} className={style.reply_container}>
         <div className={style.reply_cnt}>
           {reply_cnt} {reply_cnt === 1 ? 'comment' : 'comments'}{' '}
         </div>
@@ -61,7 +61,7 @@ export default function ReplyListComponent(props: Props) {
             )}
           </div>
         ))}
-      </div>
+      </Box>
     </>
   );
 }
