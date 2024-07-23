@@ -16,7 +16,7 @@ import style from './table.module.css';
 import 'react-quill/dist/quill.snow.css';
 import './quill.css';
 import { useRouter } from 'next/navigation';
-import useSessionStore from '@/utils/etc/useSessionStore';
+import useSessionStore from '@/utils/store/useSessionStore';
 
 interface Props {
   writing: Writing;

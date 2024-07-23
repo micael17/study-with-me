@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { getSession, getUser, loginWithEmail, signOut } from '../supabase/authService';
+import { getSession, loginWithEmail, signOut } from '../supabase/authService';
 
 type UserMetaData = {
   email: string;

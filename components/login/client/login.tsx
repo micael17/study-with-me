@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Box, Button, Container, FormControl, FormLabel, Heading, Input, Link, Text, VStack } from '@chakra-ui/react';
-import useSessionStore from '@/utils/etc/useSessionStore';
+import useSessionStore from '@/utils/store/useSessionStore';
 
 export default function LoginCp() {
   const router = useRouter();

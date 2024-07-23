@@ -58,18 +58,33 @@ export const getNoticeList = async (): Promise<Writing[]> => {
 };
 
 export const getWritingContent = async (writing_id: number): Promise<Writing> => {
-  const { data, error } = await supabase
+  const { data: writingData, error: writingError } = await supabase
     .from('writing')
     .select(
       `
     *,
-     member(uid)
+     member(uid, member_id)
   `,
     )
     .eq('writing_id', writing_id)
     .single<Writing>();
 
-  return data as Writing;
+  const { count, error: replyError } = await supabase
+    .from('reply')
+    .select(
+      `
+    *
+  `,
+      { count: 'exact' },
+    )
+    .eq('writing_id', writing_id)
+    .single<Writing>();
+
+  if (writingData) {
+    writingData.reply_cnt = count || 0;
+  }
+
+  return writingData as Writing;
 };
 
 export const submitBoardWriting = async (writingModel: Writing) => {

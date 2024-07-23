@@ -14,6 +14,9 @@ export default async function EditorPage(props: Props) {
     category: '',
     content: '',
     title: '',
+    member: {
+      uid: '',
+    },
   };
 
   if (props.params.writing_id) {

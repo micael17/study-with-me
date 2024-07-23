@@ -1,6 +1,6 @@
 'use client';
 
-import useSessionStore from '@/utils/etc/useSessionStore';
+import useSessionStore from '@/utils/store/useSessionStore';
 import { Button, Link, useToast } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
 

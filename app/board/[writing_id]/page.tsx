@@ -16,14 +16,13 @@ interface Props {
 
 export default async function ViewPage(props: Props) {
   const data: Writing = await getWritingContent(props.params.writing_id);
-  const replyList: Reply[] = await getReplyListRPC(props.params.writing_id);
 
   return (
     <>
       <Suspense>
         <Viewer writing={data} />
         <ReplyEditor isReReply={false} writing_id={props.params.writing_id} />
-        <ReplyList writing_id={props.params.writing_id} data={replyList} />
+        <ReplyList writing_id={props.params.writing_id} />
       </Suspense>
       <Link m={3} as={NextLink} href="/board">
         <Button>게시판으로 가기</Button>

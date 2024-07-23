@@ -3,7 +3,7 @@
 import { Flex, Heading, Link, Button, Box } from '@chakra-ui/react';
 import React, { useEffect } from 'react';
 import NextLink from 'next/link';
-import useSessionStore from '@/utils/etc/useSessionStore';
+import useSessionStore from '@/utils/store/useSessionStore';
 
 export default function Header() {
   const { isLogined, checkSession, logout, userMetaData } = useSessionStore();

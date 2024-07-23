@@ -5,32 +5,45 @@ import style from './reply.module.css';
 import { formatTimeAgo } from '@/utils/etc/date';
 import { useEffect, useState } from 'react';
 import ReplyEditor from './replyEditor';
+import useReplyStore from '@/utils/store/useReplyStore';
+import useSessionStore from '@/utils/store/useSessionStore';
 
 interface Props {
   writing_id: number;
-  data: Reply[];
 }
 
 export default function ReplyListComponent(props: Props) {
   type ReReply = {
     reply_id: number;
-    member_id: number;
+    uid: string;
   };
+
+  const { userMetaData } = useSessionStore();
+  const { replyList, getReplyList } = useReplyStore((state) => ({
+    replyList: state.replyList,
+    getReplyList: state.getReplyList,
+  }));
   const [reReply, setReReply] = useState<ReReply>();
-  const reply_cnt = props.data.length;
+  const reply_cnt = replyList.length;
 
-  const handleReReply = (reply_id: number, member_id: number) => {
-    console.log('reply_id', reply_id, member_id, props.writing_id);
+  useEffect(() => {
+    getReplyList(props.writing_id);
+  }, []);
 
+  const handleInit = () => {
+    setReReply({} as ReReply);
+  };
+
+  const handleReReply = (reply_id: number, uid: string) => {
     setReReply({
       reply_id,
-      member_id,
+      uid,
     });
   };
 
-  useEffect(() => {
-    console.log('props', props.data);
-  }, []);
+  const handleModify = (reply_id: number, uid: string) => {};
+
+  const handleDelete = (reply_id: number, uid: string) => {};
 
   return (
     <>
@@ -38,14 +51,39 @@ export default function ReplyListComponent(props: Props) {
         <div className={style.reply_cnt}>
           {reply_cnt} {reply_cnt === 1 ? 'comment' : 'comments'}{' '}
         </div>
-        {props.data.map((reply, index) => (
+        {replyList.map((reply, index) => (
           <div key={index} className={`${style.reply} ${reply.is_nested ? style.nested_reply : ''}`}>
             <div className={style.reply_header}>
               <div className={style.reply_info}>
-                {reply.member?.id} : {formatTimeAgo(reply.created_at || '')} :&nbsp;
-                <Button variant="link" size={'xs'} onClick={() => handleReReply(reply.reply_id, reply.member_id)}>
+                {reply.member.member_id} : {formatTimeAgo(reply.created_at || '')} :&nbsp;
+                <Button
+                  mx={1}
+                  variant="link"
+                  size={'xs'}
+                  onClick={() => handleReReply(reply.reply_id, reply.member.uid)}
+                >
                   답글
                 </Button>
+                {reply.member.member_id === userMetaData.member_id && (
+                  <>
+                    <Button
+                      mx={1}
+                      variant="link"
+                      size={'xs'}
+                      onClick={() => handleModify(reply.reply_id, reply.member.uid)}
+                    >
+                      수정
+                    </Button>
+                    <Button
+                      mx={1}
+                      variant="link"
+                      size={'xs'}
+                      onClick={() => handleDelete(reply.reply_id, reply.member.uid)}
+                    >
+                      삭제
+                    </Button>
+                  </>
+                )}
               </div>
             </div>
             <div className={style.reply_content}>
@@ -54,9 +92,9 @@ export default function ReplyListComponent(props: Props) {
             {reReply?.reply_id === reply.reply_id && (
               <ReplyEditor
                 writing_id={props.writing_id}
-                member_id={1}
                 origin_reply_id={reReply.reply_id}
                 isReReply={true}
+                onClose={handleInit}
               />
             )}
           </div>

@@ -8,9 +8,14 @@ interface Reply {
   writing_id: number;
   origin_reply_id: number | null;
   member: {
-    uid?: string;
-    member_id?: string;
+    uid: string;
+    member_id: string;
   };
+}
+
+interface GetReply extends Reply {
+  uid: string;
+  member_id: string;
 }
 
 interface ReplyForPost {
@@ -20,7 +25,7 @@ interface ReplyForPost {
   is_nested: boolean;
   origin_reply_id: number | null;
   member: {
-    uid?: string;
+    uid: string;
     member_id?: string;
   };
 }

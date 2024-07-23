@@ -1,21 +1,24 @@
 'use client';
 
-import { Box, Button, Textarea } from '@chakra-ui/react';
+import { Box, Button } from '@chakra-ui/react';
 import style from './reply.module.css';
 import { useState } from 'react';
 import AutoResizeTextarea from './autoResizeTextarea';
 import { submitReply } from '@/utils/supabase/reply';
 import { useRouter } from 'next/navigation';
-import useSessionStore from '@/utils/etc/useSessionStore';
+import useSessionStore from '@/utils/store/useSessionStore';
+import useReplyStore from '@/utils/store/useReplyStore';
 
 interface Prop {
   writing_id: number;
   origin_reply_id?: number;
   isReReply: boolean;
+  onClose: () => void;
 }
 
 export default function ReplyEditor(props: Prop) {
-  const { isLogined, uid } = useSessionStore();
+  const { uid } = useSessionStore();
+  const { addReply } = useReplyStore();
   const [content, setContent] = useState<string>('');
   const router = useRouter();
 
@@ -45,10 +48,10 @@ export default function ReplyEditor(props: Prop) {
       return;
     }
 
-    const result = await submitReply(reply);
+    const result = await addReply(reply);
     if (result) {
-      //@TODO 새로고침말고 컴포넌트만 새로불러오기
-      router.refresh();
+      props.onClose();
+      setContent('');
     }
   };
 
