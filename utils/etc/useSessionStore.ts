@@ -4,59 +4,50 @@ import { getSession, getUser, loginWithEmail, signOut } from '../supabase/authSe
 
 type UserMetaData = {
   email: string;
-  id: string;
+  uid: string; // supabase에서는 'sub'라고 나온다.
   member_id: string; //key
 };
 
 type SessionStore = {
   isLogined: boolean;
-  token: string;
   setIsLogined: (value: boolean) => void;
-  setToken: (value: string) => void;
   login: (email: string, password: string) => void;
   logout: () => void;
   checkSession: () => Promise<boolean>;
+  uid: string;
   userMetaData: UserMetaData;
+};
+
+const initInfo = (isLogined?: boolean, uid?: string, userMetaData?: UserMetaData) => {
+  return {
+    isLogined: isLogined || false,
+    uid: uid || '',
+    userMetaData: userMetaData || ({} as UserMetaData),
+  };
 };
 
 const useSessionStore = create<SessionStore>()(
   persist(
     (set) => ({
       isLogined: false,
-      token: '',
+      uid: '',
       userMetaData: {} as UserMetaData,
       setIsLogined: (value: boolean) => set({ isLogined: value }),
-      setToken: (value: string) => set({ token: value }),
       login: async (email: string, password: string) => {
-        const { user, session } = await loginWithEmail(email, password);
-        console.log('user: ', user);
-        set({
-          isLogined: true,
-          token: session.access_token || '',
-          userMetaData: session.user.user_metadata as UserMetaData,
-        });
+        const { user } = await loginWithEmail(email, password);
+        set(initInfo(true, user.id, user.user_metadata as UserMetaData));
       },
       logout: async () => {
         await signOut();
-        set({
-          isLogined: false,
-          token: '',
-          userMetaData: {} as UserMetaData,
-        });
+        set(initInfo());
       },
       checkSession: async () => {
         const session = await getSession();
         if (session) {
-          set({
-            isLogined: true,
-            userMetaData: session.user.user_metadata as UserMetaData,
-          });
+          set(initInfo(true, session.user.id, session.user.user_metadata as UserMetaData));
           return true;
         } else {
-          set({
-            isLogined: false,
-            userMetaData: {} as UserMetaData,
-          });
+          set(initInfo());
           return false;
         }
       },

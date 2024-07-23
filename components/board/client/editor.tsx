@@ -6,7 +6,8 @@ import dynamic from 'next/dynamic';
 const ReactQuill = dynamic(() => import('react-quill'), {
   ssr: false,
 });
-import { submitBoardWriting, uploadFileToSupabase } from '@/utils/supabase/board';
+import { submitBoardWriting } from '@/utils/supabase/writing';
+import { uploadImageToSupabase } from '@/utils/supabase/file';
 import { base64toFiles } from '@/utils/etc/img';
 import { Button } from '@chakra-ui/react';
 import Link from 'next/link';
@@ -15,6 +16,7 @@ import style from './table.module.css';
 import 'react-quill/dist/quill.snow.css';
 import './quill.css';
 import { useRouter } from 'next/navigation';
+import useSessionStore from '@/utils/etc/useSessionStore';
 
 interface Props {
   writing: Writing;
@@ -24,6 +26,8 @@ export default function Editor(props: Props) {
   const [category, setCategory] = useState<string>(props.writing.category || '');
   const [title, setTitle] = useState<string>(props.writing.title || '');
   const [content, setContent] = useState<string>(props.writing.content || '');
+
+  const { uid } = useSessionStore();
   const router = useRouter();
 
   const onSubmitBtnClick = async () => {
@@ -33,7 +37,7 @@ export default function Editor(props: Props) {
     const files = base64toFiles(imgs, 'id');
     let urls: string[] = [];
     if (files) {
-      urls = await uploadFileToSupabase(files);
+      urls = await uploadImageToSupabase(files);
 
       if (urls.length !== imgs.length) {
         console.error('err: 이미지 업로드개수와 태그개수가 일치하지 않습니다.');
@@ -47,10 +51,14 @@ export default function Editor(props: Props) {
     }
 
     setContent(tmpDom.innerHTML);
+
     const writingModel: Writing = {
       category: category,
       content: tmpDom.innerHTML,
       title: title,
+      member: {
+        uid,
+      },
     };
 
     const res = await submitBoardWriting(writingModel);

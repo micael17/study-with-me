@@ -13,23 +13,6 @@ interface Props {
 export default function MiniBoardTable(props: Props) {
   const { data } = props;
 
-  const dateFormat = (dateString: string) => {
-    const date = new Date(dateString);
-    let dateFormat2 =
-      date.getFullYear() +
-      '-' +
-      (date.getMonth() + 1 < 9 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
-      '-' +
-      (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) +
-      ' ' +
-      (date.getHours() < 10 ? '0' + date.getHours() : date.getHours()) +
-      ':' +
-      (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()) +
-      ':' +
-      (date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds());
-    return dateFormat2;
-  };
-
   useEffect(() => {
     if (data) {
       console.log(data);
@@ -50,20 +33,21 @@ export default function MiniBoardTable(props: Props) {
             </Tr>
           </Thead>
           <Tbody>
-            {data.map((row, index) => (
-              <Tr className={style.tr} key={index}>
-                <Td textAlign={'center'}>{index + 1}</Td>
-                <Td>
-                  <Link
-                    href={{
-                      pathname: `/board/${row.writing_id}`,
-                    }}
-                  >
-                    {row.title}
-                  </Link>
-                </Td>
-              </Tr>
-            ))}
+            {data &&
+              data.map((row, index) => (
+                <Tr className={style.tr} key={index}>
+                  <Td textAlign={'center'}>{index + 1}</Td>
+                  <Td>
+                    <Link
+                      href={{
+                        pathname: `/board/${row.writing_id}`,
+                      }}
+                    >
+                      {row.title}
+                    </Link>
+                  </Td>
+                </Tr>
+              ))}
           </Tbody>
         </Table>
       </TableContainer>

@@ -1,14 +1,14 @@
 'use client';
 
 import { useState, FormEvent } from 'react';
-import { signUp } from '@/utils/supabase/board';
+import { signUp } from '@/utils/supabase/authService';
 import { Box, Button, FormControl, FormLabel, Input, Heading, useToast } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
 
 const SignUp: React.FC = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [id, setId] = useState<string>('');
+  const [memberId, setMemberId] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const toast = useToast();
   const router = useRouter();
@@ -33,7 +33,7 @@ const SignUp: React.FC = () => {
   };
 
   const handleSignUp = async () => {
-    const result = await signUp(email, password, id);
+    const result = await signUp(email, password, memberId);
     if (result === 422) {
       toast({
         title: '회원가입 실패',
@@ -77,7 +77,7 @@ const SignUp: React.FC = () => {
         </FormControl>
         <FormControl id="id" isRequired mb={4}>
           <FormLabel>아이디(닉네임)</FormLabel>
-          <Input type="id" placeholder="ID" value={id} onChange={(e) => setId(e.target.value)} />
+          <Input type="id" placeholder="ID" value={memberId} onChange={(e) => setMemberId(e.target.value)} />
         </FormControl>
         <FormControl id="password" isRequired mb={4}>
           <FormLabel>비밀번호</FormLabel>

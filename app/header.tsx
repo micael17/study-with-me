@@ -30,7 +30,7 @@ export default function Header() {
             </Link>
           </>
         )}
-        {isLogined && <Box color="main.4">안녕하세요. {userMetaData.id} 님!</Box>}
+        {isLogined && <Box color="main.4">안녕하세요. {userMetaData.member_id} 님!</Box>}
       </Flex>
 
       {/* 두 번째 줄: 메인 링크 및 기타 링크들 */}
@@ -48,6 +48,9 @@ export default function Header() {
         </Link>
         <Link color="black" ml={3} as={NextLink} href="/board">
           Board
+        </Link>
+        <Link color="black" ml={3} as={NextLink} href="/study">
+          Study
         </Link>
       </Flex>
       <hr />

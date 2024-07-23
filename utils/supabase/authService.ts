@@ -8,9 +8,25 @@ export const loginWithEmail = async (email: string, password: string) => {
   return { user, session };
 };
 
-export const signUp = async (email: string, password: string) => {
-  const { error } = await supabase.auth.signUp({ email, password });
-  if (error) throw error;
+export const signUp = async (email: string, password: string, memberId: string) => {
+  //member_id 명칭으로 가입해야, DB 테이블의 컬럼과 일치하게 된다.
+  const member_id = memberId;
+  const { error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      data: {
+        member_id,
+      },
+    },
+  });
+
+  if (error) {
+    console.log('Error Sign Up:', error);
+    return error.status;
+  } else {
+    return 200;
+  }
 };
 
 export const signOut = async () => {
@@ -36,8 +52,8 @@ export const getUser = async () => {
   return data.user;
 };
 
-export const getMemberInfo = async (id: string) => {
-  const { data, error } = await supabase.from('member').select(`*`).eq('id', id);
+export const getMemberInfo = async (uid: string) => {
+  const { data, error } = await supabase.from('member').select(`*`).eq('uid', uid);
   if (error) throw error;
 
   return data;

@@ -4,7 +4,7 @@ import { Box, Button, Textarea } from '@chakra-ui/react';
 import style from './reply.module.css';
 import { useState } from 'react';
 import AutoResizeTextarea from './autoResizeTextarea';
-import { submitReply } from '@/utils/supabase/board';
+import { submitReply } from '@/utils/supabase/reply';
 import { useRouter } from 'next/navigation';
 import useSessionStore from '@/utils/etc/useSessionStore';
 
@@ -15,7 +15,7 @@ interface Prop {
 }
 
 export default function ReplyEditor(props: Prop) {
-  const { isLogined, userMetaData } = useSessionStore();
+  const { isLogined, uid } = useSessionStore();
   const [content, setContent] = useState<string>('');
   const router = useRouter();
 
@@ -33,14 +33,17 @@ export default function ReplyEditor(props: Prop) {
     const reply: ReplyForPost = {
       writing_id: props.writing_id,
       content: cleanedContent,
-      member_id: userMetaData.id,
       origin_reply_id: props.origin_reply_id || null,
       is_del: false,
       is_nested: props.isReReply,
       member: {
-        id: 1,
+        uid: uid,
       },
     };
+
+    if (!reply.member || !reply.member.uid) {
+      return;
+    }
 
     const result = await submitReply(reply);
     if (result) {

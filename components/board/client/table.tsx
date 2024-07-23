@@ -17,7 +17,7 @@ import {
 import { useEffect, useState } from 'react';
 import style from './table.module.css';
 import NextLink from 'next/link';
-import { getWritingList, getWritingListCount } from '@/utils/supabase/board';
+import { getWritingList, getWritingListCount } from '@/utils/supabase/writing';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 interface Props {
@@ -60,9 +60,6 @@ export default function BoardTable(props: Props) {
   const endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
   const visiblePages = Array.from({ length: endPage + 1 - startPage }, (_, index) => startPage + index);
 
-  // 현재 페이지의 데이터 계산
-  const startIndex = (currentPage - 1) * PAGE_SIZE;
-
   const dateFormat = (dateString: string) => {
     const date = new Date(dateString);
     let dateFormat2 =
@@ -103,21 +100,22 @@ export default function BoardTable(props: Props) {
             </Tr>
           </Thead>
           <Tbody>
-            {data.map((row, index) => (
-              <Tr className={style.tr} key={index}>
-                <Td textAlign={'center'}>{row.writing_id}</Td>
-                <Td textAlign={'center'}>{row.category}</Td>
-                <Td>
-                  <Link as={NextLink} href={`/board/${row.writing_id}`}>
-                    {row.title}
-                  </Link>
-                </Td>
-                <Td textAlign={'center'}>{row.member?.id}</Td>
-                <Td textAlign={'center'}>{dateFormat(row.created_at || '')}</Td>
-                <Td textAlign={'center'}>{row.view_cnt}</Td>
-                <Td textAlign={'center'}>{row.like_cnt}</Td>
-              </Tr>
-            ))}
+            {data &&
+              data.map((row, index) => (
+                <Tr className={style.tr} key={index}>
+                  <Td textAlign={'center'}>{row.writing_id}</Td>
+                  <Td textAlign={'center'}>{row.category}</Td>
+                  <Td>
+                    <Link as={NextLink} href={`/board/${row.writing_id}`}>
+                      {row.title}
+                    </Link>
+                  </Td>
+                  <Td textAlign={'center'}>{row.member?.member_id}</Td>
+                  <Td textAlign={'center'}>{dateFormat(row.created_at || '')}</Td>
+                  <Td textAlign={'center'}>{row.view_cnt}</Td>
+                  <Td textAlign={'center'}>{row.like_cnt}</Td>
+                </Tr>
+              ))}
           </Tbody>
         </Table>
 

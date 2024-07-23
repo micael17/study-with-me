@@ -1,6 +1,7 @@
 import ReplyEditor from '@/components/board/client/replyEditor';
 import Viewer from '@/components/board/client/viewer';
-import { getReplyList, getReplyListRPC, getWritingContent } from '@/utils/supabase/board';
+import { getWritingContent } from '@/utils/supabase/writing';
+import { getReplyListRPC } from '@/utils/supabase/reply';
 import { Button, Link } from '@chakra-ui/react';
 import { Suspense } from 'react';
 import NextLink from 'next/link';
@@ -21,7 +22,7 @@ export default async function ViewPage(props: Props) {
     <>
       <Suspense>
         <Viewer writing={data} />
-        <ReplyEditor isReReply={false} writing_id={props.params.writing_id} member_id={1} />
+        <ReplyEditor isReReply={false} writing_id={props.params.writing_id} />
         <ReplyList writing_id={props.params.writing_id} data={replyList} />
       </Suspense>
       <Link m={3} as={NextLink} href="/board">

@@ -1,5 +1,5 @@
 import BoardTable from '@/components/board/client/table';
-import { getNoticeList, getWritingList, getWritingListCount } from '@/utils/supabase/board';
+import { getNoticeList, getWritingList, getWritingListCount } from '@/utils/supabase/writing';
 import MiniBoardTable from '@/components/board/client/miniTable';
 import WriteButton from '@/components/board/client/writeButton';
 
