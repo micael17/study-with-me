@@ -23,10 +23,11 @@ export default async function ViewPage(props: Props) {
         <Viewer writing={data} />
         <ReplyEditor isReReply={false} writing_id={props.params.writing_id} />
         <ReplyList writing_id={props.params.writing_id} />
+
+        <Link m={3} as={NextLink} href="/board">
+          <Button>게시판으로 가기</Button>
+        </Link>
       </Suspense>
-      <Link m={3} as={NextLink} href="/board">
-        <Button>게시판으로 가기</Button>
-      </Link>
     </>
   );
 }

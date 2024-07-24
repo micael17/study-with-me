@@ -3,10 +3,12 @@
 import { Box, Button } from '@chakra-ui/react';
 import style from './reply.module.css';
 import { formatTimeAgo } from '@/utils/etc/date';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import ReplyEditor from './replyEditor';
 import useReplyStore from '@/utils/store/useReplyStore';
 import useSessionStore from '@/utils/store/useSessionStore';
+import { useScrollStore } from '@/utils/store/useScrollStore';
+import { getReplyListRPC } from '@/utils/supabase/reply';
 
 interface Props {
   writing_id: number;
@@ -18,17 +20,45 @@ export default function ReplyListComponent(props: Props) {
     uid: string;
   };
 
-  const { userMetaData } = useSessionStore();
-  const { replyList, getReplyList } = useReplyStore((state) => ({
-    replyList: state.replyList,
-    getReplyList: state.getReplyList,
-  }));
+  const [replyList, setReplyList] = useState<Reply[]>([]);
+  const { setPageRendered } = useScrollStore();
+  const { userMetaData, isLogined } = useSessionStore();
+  const { needRefresh, setNeedRefresh } = useReplyStore();
   const [reReply, setReReply] = useState<ReReply>();
-  const reply_cnt = replyList.length;
+
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const fetchData = async (writingId: number) => {
+    const replyList = await getReplyListRPC(writingId);
+    setReplyList(replyList);
+  };
 
   useEffect(() => {
-    getReplyList(props.writing_id);
-  }, []);
+    if (needRefresh) {
+      setNeedRefresh(false);
+      fetchData(props.writing_id);
+    }
+  }, [props.writing_id, needRefresh]);
+
+  useEffect(() => {
+    fetchData(props.writing_id);
+  }, [props.writing_id]);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const observer = new MutationObserver(() => {
+      if (container.querySelectorAll('div .reply_header').length >= replyList.length) {
+        setPageRendered(true);
+        observer.disconnect();
+      }
+    });
+
+    observer.observe(container, { childList: true, subtree: true });
+
+    return () => observer.disconnect();
+  }, [replyList, setPageRendered]);
 
   const handleInit = () => {
     setReReply({} as ReReply);
@@ -47,23 +77,30 @@ export default function ReplyListComponent(props: Props) {
 
   return (
     <>
-      <Box m={3} className={style.reply_container}>
+      <Box ref={containerRef} m={3} className={style.reply_container}>
         <div className={style.reply_cnt}>
-          {reply_cnt} {reply_cnt === 1 ? 'comment' : 'comments'}{' '}
+          {replyList.length} {replyList.length === 1 ? 'comment' : 'comments'}{' '}
         </div>
         {replyList.map((reply, index) => (
           <div key={index} className={`${style.reply} ${reply.is_nested ? style.nested_reply : ''}`}>
             <div className={style.reply_header}>
               <div className={style.reply_info}>
-                {reply.member.member_id} : {formatTimeAgo(reply.created_at || '')} :&nbsp;
-                <Button
-                  mx={1}
-                  variant="link"
-                  size={'xs'}
-                  onClick={() => handleReReply(reply.reply_id, reply.member.uid)}
-                >
-                  답글
-                </Button>
+                {reply.member.member_id === userMetaData.member_id ? (
+                  <span className={style.my_reply}>{reply.member.member_id}</span>
+                ) : (
+                  <span>{reply.member.member_id}</span>
+                )}
+                : {formatTimeAgo(reply.created_at || '')}
+                {isLogined && (
+                  <Button
+                    mx={1}
+                    variant="link"
+                    size={'xs'}
+                    onClick={() => handleReReply(reply.reply_id, reply.member.uid)}
+                  >
+                    답글
+                  </Button>
+                )}
                 {reply.member.member_id === userMetaData.member_id && (
                   <>
                     <Button
@@ -94,7 +131,7 @@ export default function ReplyListComponent(props: Props) {
                 writing_id={props.writing_id}
                 origin_reply_id={reReply.reply_id}
                 isReReply={true}
-                onClose={handleInit}
+                /* onClose={handleInit} */
               />
             )}
           </div>

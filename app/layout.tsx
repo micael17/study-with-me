@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Providers } from './providers';
 import Header from '@/app/header';
 import Timer from '@/components/timer/client/timer';
+import ScrollRestoration from './scrollRestoration';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -20,6 +21,7 @@ export default function RootLayout({
           <Header />
           {children}
           <Timer />
+          <ScrollRestoration />
         </Providers>
       </body>
     </html>

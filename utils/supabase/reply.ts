@@ -64,7 +64,5 @@ export const getReplyListRPC = async (writing_id: number): Promise<Reply[]> => {
     return obj;
   });
 
-  console.log('reply data:', newData);
-
   return newData as Reply[];
 };
