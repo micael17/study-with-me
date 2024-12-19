@@ -11,7 +11,7 @@
 - Next.js 14
 - Zustand
 - Chakra-UI
-- Supbase
+- Supabase
 - Typescript
 
 ## To-do
