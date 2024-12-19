@@ -13,6 +13,8 @@
 - 대댓글들의 계층구조를 시각화하는 방법
 - 나의 계획 또는 메모 기능 개발
 
+--- 
+
 ![image](https://github.com/user-attachments/assets/3bf8a6fe-6b56-461e-8294-afe52dbaa818)
 
 영상을 클릭하면 모달창으로 팝업되어 나오게 만들었음
