@@ -7,4 +7,4 @@
 스터디윗미 관련 컨텐츠만 나오게 하고    
 공부나 작업하는 사람들의 커뮤니티가 간단히 있으면 좋겠다 싶어서 만든 토이프로젝트.   
 
-![Uploading image.png…]()
+![image](https://github.com/user-attachments/assets/3bf8a6fe-6b56-461e-8294-afe52dbaa818)
